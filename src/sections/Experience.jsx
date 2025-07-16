@@ -27,6 +27,195 @@ const loadGSAP = () => {
   });
 };
 
+// SVG Icons Component
+const TechIcon = ({ name, color = "#000000", size = 24 }) => {
+  const icons = {
+    'React.js': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 10.11c1.03 0 1.87.84 1.87 1.89s-.84 1.85-1.87 1.85-1.87-.82-1.87-1.85.84-1.89 1.87-1.89z" fill={color}/>
+        <path d="M7.37 9c.63-.19 1.3-.35 2.01-.48.22-.04.44-.08.67-.12-.08-.26-.15-.52-.21-.78-.34-1.36-.34-2.51.12-3.34.44-.79 1.25-1.28 2.3-1.28 1.04 0 1.85.49 2.29 1.28.46.83.46 1.98.12 3.34-.06.26-.13.52-.21.78.23.04.45.08.67.12.71.13 1.38.29 2.01.48 2.5.78 4.25 2.21 4.25 3.85 0 1.64-1.75 3.07-4.25 3.85-.63.19-1.3.35-2.01.48-.22.04-.44.08-.67.12.08.26.15.52.21.78.34 1.36.34 2.51-.12 3.34-.44.79-1.25 1.28-2.29 1.28-1.05 0-1.86-.49-2.3-1.28-.46-.83-.46-1.98-.12-3.34.06-.26.13-.52.21-.78-.23-.04-.45-.08-.67-.12-.71-.13-1.38-.29-2.01-.48C2.62 15.92.87 14.49.87 12.85c0-1.64 1.75-3.07 4.25-3.85z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M12 2.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5zm0 18c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5z" fill={color}/>
+      </svg>
+    ),
+    'Node.js': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l7.44 4.3c.23.13.51.2.78.2.27 0 .55-.07.78-.2l7.44-4.3c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36L12.78 2.05c-.23-.13-.51-.2-.78-.2z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M7 9.5v5l5 2.89L17 14.5v-5L12 6.61 7 9.5z" fill={color}/>
+      </svg>
+    ),
+    'Next.js': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M7.5 8.5L16.5 19M9.5 15.5L16.5 6.5" stroke={color} strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    ),
+    'TypeScript': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <rect x="2" y="2" width="20" height="20" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M8 8h8M12 8v8M16 12h4M18 10v4" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    ),
+    'Docker': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M13.5 10.5h2v2h-2v-2zm-3 0h2v2h-2v-2zm-3 0h2v2h-2v-2zm6-3h2v2h-2v-2zm-3 0h2v2h-2v-2zm-3 0h2v2h-2v-2zm-3 0h2v2h-2v-2zm6-3h2v2h-2v-2zm-3 0h2v2h-2v-2z" fill={color}/>
+        <path d="M23 10.5s-1.5-1.5-4.5-1.5-4.5 1.5-4.5 1.5-1.5 3-1.5 6c0 3 1.5 6 1.5 6s1.5 1.5 4.5 1.5 4.5-1.5 4.5-1.5 1.5-3 1.5-6c0-3-1.5-6-1.5-6z" stroke={color} strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    'AWS': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M6 12c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M12 8v8M8 12h8" stroke={color} strokeWidth="1.5"/>
+        <path d="M16 16l4 4M8 8L4 4" stroke={color} strokeWidth="1.5"/>
+      </svg>
+    ),
+    'Express.js': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M2 12h20M7 7l10 10M17 7L7 17" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    ),
+    'MongoDB': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2s2-.9 2-2V4c0-1.1-.9-2-2-2z" fill={color}/>
+        <ellipse cx="12" cy="6" rx="8" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
+        <ellipse cx="12" cy="12" rx="8" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
+        <ellipse cx="12" cy="18" rx="8" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    'PostgreSQL': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 2c-2.21 0-4 1.79-4 4v12c0 2.21 1.79 4 4 4s4-1.79 4-4V6c0-2.21-1.79-4-4-4z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M8 10h8M8 14h8" stroke={color} strokeWidth="1.5"/>
+        <circle cx="12" cy="6" r="1" fill={color}/>
+      </svg>
+    ),
+    'Redis': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <ellipse cx="12" cy="8" rx="10" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
+        <ellipse cx="12" cy="12" rx="10" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
+        <ellipse cx="12" cy="16" rx="10" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M2 8v8c0 1.66 4.48 3 10 3s10-1.34 10-3V8" stroke={color} strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    'Vue.js': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M2 3h4l6 10L18 3h4l-10 18L2 3z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M6 3l6 10L18 3" stroke={color} strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    'JavaScript': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <rect x="2" y="2" width="20" height="20" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M7 17c0 1.1.9 2 2 2s2-.9 2-2v-7h-2v7M15 17c0 1.1.9 2 2 2s2-.9 2-2v-2h-2v2" stroke={color} strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    'Sass': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M8 8c2 0 4 1 4 3s-2 3-4 3-4-1-4-3 2-3 4-3M16 12c0 2-1 4-3 4s-3-2-3-4" stroke={color} strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    'Webpack': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M12 2v20M3 7l9 5 9-5M3 17l9-5 9 5" stroke={color} strokeWidth="1.5"/>
+      </svg>
+    ),
+    'Figma': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M8 2h4v4H8c-1.1 0-2-.9-2-2s.9-2 2-2zM12 2h4c1.1 0 2 .9 2 2s-.9 2-2 2h-4V2zM12 6h4c1.1 0 2 .9 2 2s-.9 2-2 2h-4V6zM8 10h4v4H8c-1.1 0-2-.9-2-2s.9-2 2-2zM12 14v4c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2h2z" fill={color}/>
+      </svg>
+    ),
+    'GSAP': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M8 8l8 8M16 8l-8 8" stroke={color} strokeWidth="1.5"/>
+        <circle cx="12" cy="12" r="3" fill={color}/>
+      </svg>
+    ),
+    'HTML5': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M4 2h16l-1.5 17L12 22l-6.5-3L4 2z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M8 6h8M7 10h10M8 14h6" stroke={color} strokeWidth="1.5"/>
+      </svg>
+    ),
+    'CSS3': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M4 2h16l-1.5 17L12 22l-6.5-3L4 2z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M8 6h8M7 10h10M8 14h6" stroke={color} strokeWidth="1.5"/>
+        <circle cx="12" cy="12" r="2" fill={color}/>
+      </svg>
+    ),
+    'jQuery': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M8 8c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4" fill={color}/>
+      </svg>
+    ),
+    'Bootstrap': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <rect x="2" y="2" width="20" height="20" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
+        <path d="M7 7h6c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2H7V7zM7 13h7c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2H7v-6z" fill={color}/>
+      </svg>
+    ),
+    'Git': (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M21.3 10.7l-8.6-8.6c-.4-.4-1-.4-1.4 0l-8.6 8.6c-.4.4-.4 1 0 1.4l8.6 8.6c.4.4 1 .4 1.4 0l8.6-8.6c.4-.4.4-1 0-1.4z" stroke={color} strokeWidth="1.5" fill="none"/>
+        <circle cx="12" cy="12" r="3" fill={color}/>
+      </svg>
+    )
+  };
+
+  return icons[name] || (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="2" width="20" height="20" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
+      <path d="M8 8h8M8 12h8M8 16h4" stroke={color} strokeWidth="1.5"/>
+    </svg>
+  );
+};
+
+// Navigation Controls
+const NavigationControls = ({ currentIndex, totalItems, onNavigate }) => {
+  return (
+    <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 bg-white/95 backdrop-blur-lg rounded-2xl p-4 shadow-2xl border border-amber-200">
+      <div className="flex flex-col items-center space-y-6">
+        <button
+          onClick={() => onNavigate('prev')}
+          disabled={currentIndex === 0}
+          className="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        </button>
+        
+        <div className="flex flex-col items-center space-y-2">
+          {Array.from({ length: totalItems }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => onNavigate(i)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                i === currentIndex 
+                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 scale-125' 
+                  : 'bg-gray-300 hover:bg-gray-400'
+              }`}
+            />
+          ))}
+        </div>
+        
+        <button
+          onClick={() => onNavigate('next')}
+          disabled={currentIndex === totalItems - 1}
+          className="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Experience = () => {
   const containerRef = useRef(null);
   const experienceItemsRef = useRef([]);
@@ -36,7 +225,8 @@ const Experience = () => {
   const curvedPathsRef = useRef([]);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [visibleItems, setVisibleItems] = useState(new Set());
-  const [activeItem, setActiveItem] = useState(null);
+  const [activeItem, setActiveItem] = useState(0);
+  const [gsapInstance, setGsapInstance] = useState(null);
 
   const experiences = [
     {
@@ -52,12 +242,12 @@ const Experience = () => {
         "Established coding standards and best practices across organization"
       ],
       technologies: [
-        { name: "React.js", icon: "⚛️", color: "bg-cyan-500" },
-        { name: "Node.js", icon: "🟢", color: "bg-green-600" },
-        { name: "Next.js", icon: "▲", color: "bg-black" },
-        { name: "TypeScript", icon: "TS", color: "bg-blue-600" },
-        { name: "Docker", icon: "🐳", color: "bg-blue-700" },
-        { name: "AWS", icon: "☁️", color: "bg-orange-500" }
+        { name: "React.js", color: "#61DAFB" },
+        { name: "Node.js", color: "#339933" },
+        { name: "Next.js", color: "#000000" },
+        { name: "TypeScript", color: "#3178C6" },
+        { name: "Docker", color: "#2496ED" },
+        { name: "AWS", color: "#FF9900" }
       ],
       side: "left",
       metrics: { projects: "25+", team: "8", performance: "45%" }
@@ -75,12 +265,12 @@ const Experience = () => {
         "Integrated third-party APIs and payment systems successfully"
       ],
       technologies: [
-        { name: "React.js", icon: "⚛️", color: "bg-cyan-500" },
-        { name: "Express.js", icon: "E", color: "bg-gray-700" },
-        { name: "MongoDB", icon: "🍃", color: "bg-green-500" },
-        { name: "PostgreSQL", icon: "🐘", color: "bg-blue-600" },
-        { name: "Redis", icon: "🔴", color: "bg-red-500" },
-        { name: "AWS", icon: "☁️", color: "bg-orange-500" }
+        { name: "React.js", color: "#61DAFB" },
+        { name: "Express.js", color: "#000000" },
+        { name: "MongoDB", color: "#47A248" },
+        { name: "PostgreSQL", color: "#336791" },
+        { name: "Redis", color: "#DC382D" },
+        { name: "AWS", color: "#FF9900" }
       ],
       side: "right",
       metrics: { projects: "20+", performance: "65%", apis: "15+" }
@@ -98,12 +288,12 @@ const Experience = () => {
         "Implemented advanced animations and interactive components"
       ],
       technologies: [
-        { name: "Vue.js", icon: "V", color: "bg-green-500" },
-        { name: "JavaScript", icon: "JS", color: "bg-yellow-500" },
-        { name: "Sass", icon: "💅", color: "bg-pink-500" },
-        { name: "Webpack", icon: "📦", color: "bg-blue-600" },
-        { name: "Figma", icon: "F", color: "bg-purple-500" },
-        { name: "GSAP", icon: "🎭", color: "bg-green-600" }
+        { name: "Vue.js", color: "#4FC08D" },
+        { name: "JavaScript", color: "#F7DF1E" },
+        { name: "Sass", color: "#CC6699" },
+        { name: "Webpack", color: "#8DD6F9" },
+        { name: "Figma", color: "#F24E1E" },
+        { name: "GSAP", color: "#88CE02" }
       ],
       side: "left",
       metrics: { projects: "30+", satisfaction: "98%", engagement: "40%" }
@@ -121,21 +311,52 @@ const Experience = () => {
         "Maintained 99% uptime for all deployed applications"
       ],
       technologies: [
-        { name: "HTML5", icon: "🔷", color: "bg-orange-600" },
-        { name: "CSS3", icon: "🎨", color: "bg-blue-500" },
-        { name: "JavaScript", icon: "JS", color: "bg-yellow-500" },
-        { name: "jQuery", icon: "jQ", color: "bg-blue-700" },
-        { name: "Bootstrap", icon: "B", color: "bg-purple-600" },
-        { name: "Git", icon: "🔧", color: "bg-gray-600" }
+        { name: "HTML5", color: "#E34F26" },
+        { name: "CSS3", color: "#1572B6" },
+        { name: "JavaScript", color: "#F7DF1E" },
+        { name: "jQuery", color: "#0769AD" },
+        { name: "Bootstrap", color: "#7952B3" },
+        { name: "Git", color: "#F05032" }
       ],
       side: "right",
       metrics: { projects: "15+", uptime: "99%", opensource: "5" }
     }
   ];
 
+  const navigateToItem = (direction) => {
+    if (!gsapInstance) return;
+    
+    let newIndex = activeItem;
+    
+    if (direction === 'prev' && activeItem > 0) {
+      newIndex = activeItem - 1;
+    } else if (direction === 'next' && activeItem < experiences.length - 1) {
+      newIndex = activeItem + 1;
+    } else if (typeof direction === 'number') {
+      newIndex = direction;
+    }
+    
+    if (newIndex !== activeItem && experienceItemsRef.current[newIndex]) {
+      const targetElement = experienceItemsRef.current[newIndex];
+      const offsetTop = targetElement.offsetTop - window.innerHeight / 2 + 300;
+      
+      gsapInstance.to(window, {
+        duration: 1.5,
+        scrollTo: {
+          y: offsetTop,
+          autoKill: false
+        },
+        ease: "power2.inOut"
+      });
+      
+      setActiveItem(newIndex);
+    }
+  };
+
   useEffect(() => {
     const initializeScrollAnimations = async () => {
       const { gsap, ScrollTrigger } = await loadGSAP();
+      setGsapInstance(gsap);
       
       // Clear any existing ScrollTriggers
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -429,26 +650,6 @@ const Experience = () => {
         }
       });
 
-      // Auto-scroll on click
-      const addClickListeners = () => {
-        experienceItemsRef.current.forEach((item, index) => {
-          if (item) {
-            item.addEventListener('click', () => {
-              gsap.to(window, {
-                duration: 1.5,
-                scrollTo: {
-                  y: item.offsetTop - window.innerHeight / 2,
-                  autoKill: false
-                },
-                ease: "power2.inOut"
-              });
-            });
-          }
-        });
-      };
-
-      addClickListeners();
-
       // Cleanup function
       return () => {
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -467,6 +668,13 @@ const Experience = () => {
           style={{ width: `${scrollProgress * 100}%` }}
         />
       </div>
+
+      {/* Navigation Controls */}
+      <NavigationControls 
+        currentIndex={activeItem}
+        totalItems={experiences.length}
+        onNavigate={navigateToItem}
+      />
 
       {/* Enhanced Background */}
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
@@ -649,19 +857,20 @@ const Experience = () => {
                       </div>
                     </div>
 
-                    {/* Enhanced Technology Stack */}
+                    {/* Enhanced Technology Stack with SVG Icons */}
                     <div className="text-center">
                       <h4 className="text-amber-800 font-bold mb-6 text-2xl">Technology Stack</h4>
                       <div className="flex flex-wrap gap-4 justify-center">
                         {experience.technologies.map((tech, techIndex) => (
                           <div
                             key={techIndex}
-                            className={`tech-badge ${tech.color} text-white px-8 py-4 rounded-full text-sm font-medium shadow-lg flex items-center gap-3 transform hover:scale-110 transition-all duration-300 cursor-pointer`}
+                            className={`tech-badge bg-white border-2 text-gray-800 px-6 py-4 rounded-full text-sm font-medium shadow-lg flex items-center gap-3 transform hover:scale-110 transition-all duration-300 cursor-pointer hover:shadow-xl`}
                             style={{
-                              boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2), 0 0 20px rgba(245, 158, 11, 0.1)'
+                              borderColor: tech.color,
+                              boxShadow: `0 8px 16px rgba(0, 0, 0, 0.1), 0 0 20px ${tech.color}20`
                             }}
                           >
-                            <span className="text-xl">{tech.icon}</span>
+                            <TechIcon name={tech.name} color={tech.color} size={20} />
                             <span>{tech.name}</span>
                           </div>
                         ))}
@@ -714,4 +923,4 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+export default Experience;  
