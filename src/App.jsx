@@ -30,7 +30,7 @@ const App = () => {
           <MessageSection />
           <BenefitSection />
           <FlavorSection />
-          <NutritionSection />
+          {/* <NutritionSection /> */}
           <SmoothSkillsAnimation />
           <Experience />
           <FooterSection />

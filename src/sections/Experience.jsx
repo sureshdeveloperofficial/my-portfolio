@@ -1,926 +1,471 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+  Briefcase,
+  Code,
+  GraduationCap,
+  Award,
+  Rocket,
+  Users,
+  Target,
+  TrendingUp,
+  Building,
+  Coffee
+} from 'lucide-react';
+import ClipPathTitle from '../components/ClipPathTitle';
+import { useGSAP } from '@gsap/react';
+import { SplitText } from 'gsap/all';
 
-// Load GSAP and ScrollTrigger from CDN
-const loadGSAP = () => {
-  return new Promise((resolve) => {
-    if (window.gsap && window.ScrollTrigger) {
-      resolve({ gsap: window.gsap, ScrollTrigger: window.ScrollTrigger });
-      return;
-    }
-    
-    const loadScript = (src) => {
-      return new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.onload = resolve;
-        document.head.appendChild(script);
-      });
-    };
-    
-    Promise.all([
-      loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'),
-      loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js')
-    ]).then(() => {
-      window.gsap.registerPlugin(window.ScrollTrigger);
-      resolve({ gsap: window.gsap, ScrollTrigger: window.ScrollTrigger });
-    });
-  });
-};
-
-// SVG Icons Component
-const TechIcon = ({ name, color = "#000000", size = 24 }) => {
-  const icons = {
-    'React.js': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M12 10.11c1.03 0 1.87.84 1.87 1.89s-.84 1.85-1.87 1.85-1.87-.82-1.87-1.85.84-1.89 1.87-1.89z" fill={color}/>
-        <path d="M7.37 9c.63-.19 1.3-.35 2.01-.48.22-.04.44-.08.67-.12-.08-.26-.15-.52-.21-.78-.34-1.36-.34-2.51.12-3.34.44-.79 1.25-1.28 2.3-1.28 1.04 0 1.85.49 2.29 1.28.46.83.46 1.98.12 3.34-.06.26-.13.52-.21.78.23.04.45.08.67.12.71.13 1.38.29 2.01.48 2.5.78 4.25 2.21 4.25 3.85 0 1.64-1.75 3.07-4.25 3.85-.63.19-1.3.35-2.01.48-.22.04-.44.08-.67.12.08.26.15.52.21.78.34 1.36.34 2.51-.12 3.34-.44.79-1.25 1.28-2.29 1.28-1.05 0-1.86-.49-2.3-1.28-.46-.83-.46-1.98-.12-3.34.06-.26.13-.52.21-.78-.23-.04-.45-.08-.67-.12-.71-.13-1.38-.29-2.01-.48C2.62 15.92.87 14.49.87 12.85c0-1.64 1.75-3.07 4.25-3.85z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M12 2.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5zm0 18c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5z" fill={color}/>
-      </svg>
-    ),
-    'Node.js': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l7.44 4.3c.23.13.51.2.78.2.27 0 .55-.07.78-.2l7.44-4.3c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36L12.78 2.05c-.23-.13-.51-.2-.78-.2z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M7 9.5v5l5 2.89L17 14.5v-5L12 6.61 7 9.5z" fill={color}/>
-      </svg>
-    ),
-    'Next.js': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M7.5 8.5L16.5 19M9.5 15.5L16.5 6.5" stroke={color} strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    ),
-    'TypeScript': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <rect x="2" y="2" width="20" height="20" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M8 8h8M12 8v8M16 12h4M18 10v4" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
-      </svg>
-    ),
-    'Docker': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M13.5 10.5h2v2h-2v-2zm-3 0h2v2h-2v-2zm-3 0h2v2h-2v-2zm6-3h2v2h-2v-2zm-3 0h2v2h-2v-2zm-3 0h2v2h-2v-2zm-3 0h2v2h-2v-2zm6-3h2v2h-2v-2zm-3 0h2v2h-2v-2z" fill={color}/>
-        <path d="M23 10.5s-1.5-1.5-4.5-1.5-4.5 1.5-4.5 1.5-1.5 3-1.5 6c0 3 1.5 6 1.5 6s1.5 1.5 4.5 1.5 4.5-1.5 4.5-1.5 1.5-3 1.5-6c0-3-1.5-6-1.5-6z" stroke={color} strokeWidth="1.5" fill="none"/>
-      </svg>
-    ),
-    'AWS': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M6 12c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M12 8v8M8 12h8" stroke={color} strokeWidth="1.5"/>
-        <path d="M16 16l4 4M8 8L4 4" stroke={color} strokeWidth="1.5"/>
-      </svg>
-    ),
-    'Express.js': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M2 12h20M7 7l10 10M17 7L7 17" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
-      </svg>
-    ),
-    'MongoDB': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M12 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2s2-.9 2-2V4c0-1.1-.9-2-2-2z" fill={color}/>
-        <ellipse cx="12" cy="6" rx="8" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
-        <ellipse cx="12" cy="12" rx="8" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
-        <ellipse cx="12" cy="18" rx="8" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
-      </svg>
-    ),
-    'PostgreSQL': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M12 2c-2.21 0-4 1.79-4 4v12c0 2.21 1.79 4 4 4s4-1.79 4-4V6c0-2.21-1.79-4-4-4z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M8 10h8M8 14h8" stroke={color} strokeWidth="1.5"/>
-        <circle cx="12" cy="6" r="1" fill={color}/>
-      </svg>
-    ),
-    'Redis': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <ellipse cx="12" cy="8" rx="10" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
-        <ellipse cx="12" cy="12" rx="10" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
-        <ellipse cx="12" cy="16" rx="10" ry="3" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M2 8v8c0 1.66 4.48 3 10 3s10-1.34 10-3V8" stroke={color} strokeWidth="1.5" fill="none"/>
-      </svg>
-    ),
-    'Vue.js': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M2 3h4l6 10L18 3h4l-10 18L2 3z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M6 3l6 10L18 3" stroke={color} strokeWidth="1.5" fill="none"/>
-      </svg>
-    ),
-    'JavaScript': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <rect x="2" y="2" width="20" height="20" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M7 17c0 1.1.9 2 2 2s2-.9 2-2v-7h-2v7M15 17c0 1.1.9 2 2 2s2-.9 2-2v-2h-2v2" stroke={color} strokeWidth="1.5" fill="none"/>
-      </svg>
-    ),
-    'Sass': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M8 8c2 0 4 1 4 3s-2 3-4 3-4-1-4-3 2-3 4-3M16 12c0 2-1 4-3 4s-3-2-3-4" stroke={color} strokeWidth="1.5" fill="none"/>
-      </svg>
-    ),
-    'Webpack': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M12 2v20M3 7l9 5 9-5M3 17l9-5 9 5" stroke={color} strokeWidth="1.5"/>
-      </svg>
-    ),
-    'Figma': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M8 2h4v4H8c-1.1 0-2-.9-2-2s.9-2 2-2zM12 2h4c1.1 0 2 .9 2 2s-.9 2-2 2h-4V2zM12 6h4c1.1 0 2 .9 2 2s-.9 2-2 2h-4V6zM8 10h4v4H8c-1.1 0-2-.9-2-2s.9-2 2-2zM12 14v4c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2h2z" fill={color}/>
-      </svg>
-    ),
-    'GSAP': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M8 8l8 8M16 8l-8 8" stroke={color} strokeWidth="1.5"/>
-        <circle cx="12" cy="12" r="3" fill={color}/>
-      </svg>
-    ),
-    'HTML5': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M4 2h16l-1.5 17L12 22l-6.5-3L4 2z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M8 6h8M7 10h10M8 14h6" stroke={color} strokeWidth="1.5"/>
-      </svg>
-    ),
-    'CSS3': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M4 2h16l-1.5 17L12 22l-6.5-3L4 2z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M8 6h8M7 10h10M8 14h6" stroke={color} strokeWidth="1.5"/>
-        <circle cx="12" cy="12" r="2" fill={color}/>
-      </svg>
-    ),
-    'jQuery': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M8 8c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4" fill={color}/>
-      </svg>
-    ),
-    'Bootstrap': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <rect x="2" y="2" width="20" height="20" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
-        <path d="M7 7h6c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2H7V7zM7 13h7c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2H7v-6z" fill={color}/>
-      </svg>
-    ),
-    'Git': (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M21.3 10.7l-8.6-8.6c-.4-.4-1-.4-1.4 0l-8.6 8.6c-.4.4-.4 1 0 1.4l8.6 8.6c.4.4 1 .4 1.4 0l8.6-8.6c.4-.4.4-1 0-1.4z" stroke={color} strokeWidth="1.5" fill="none"/>
-        <circle cx="12" cy="12" r="3" fill={color}/>
-      </svg>
-    )
-  };
-
-  return icons[name] || (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <rect x="2" y="2" width="20" height="20" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
-      <path d="M8 8h8M8 12h8M8 16h4" stroke={color} strokeWidth="1.5"/>
-    </svg>
-  );
-};
-
-// Navigation Controls
-const NavigationControls = ({ currentIndex, totalItems, onNavigate }) => {
-  return (
-    <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 bg-white/95 backdrop-blur-lg rounded-2xl p-4 shadow-2xl border border-amber-200">
-      <div className="flex flex-col items-center space-y-6">
-        <button
-          onClick={() => onNavigate('prev')}
-          disabled={currentIndex === 0}
-          className="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
-        
-        <div className="flex flex-col items-center space-y-2">
-          {Array.from({ length: totalItems }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => onNavigate(i)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                i === currentIndex 
-                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 scale-125' 
-                  : 'bg-gray-300 hover:bg-gray-400'
-              }`}
-            />
-          ))}
-        </div>
-        
-        <button
-          onClick={() => onNavigate('next')}
-          disabled={currentIndex === totalItems - 1}
-          className="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  );
-};
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
   const containerRef = useRef(null);
-  const experienceItemsRef = useRef([]);
-  const timelineLineRef = useRef(null);
-  const headerRef = useRef(null);
-  const backgroundTextRef = useRef(null);
-  const curvedPathsRef = useRef([]);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [visibleItems, setVisibleItems] = useState(new Set());
-  const [activeItem, setActiveItem] = useState(0);
-  const [gsapInstance, setGsapInstance] = useState(null);
+  const pathRef = useRef(null);
+  const timelineRef = useRef(null);
+  const paragraphRef = useRef(null);
+  
+  // paragraph text reveal gsap animation
+  useGSAP(() => {
+    const paragraphSplit = new SplitText(paragraphRef.current, {
+      type: "words",
+    });
 
+    gsap.from(paragraphSplit.words, {
+      yPercent: 100,
+      opacity: 0,
+      scale: 0.8,
+      ease: "back.out(1.7)",
+      duration: 1.2,
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: paragraphRef.current,
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+  });
+
+
+  // Experience data with positions for snake-like flow
   const experiences = [
     {
       id: 1,
       title: "Senior Full Stack Developer",
-      company: "Tech Innovations Inc.",
-      period: "2022 - Present",
-      description: "Leading development of enterprise-scale applications with modern React ecosystem. Architecting scalable solutions and mentoring development teams while implementing cutting-edge technologies.",
-      achievements: [
-        "Improved application performance by 45% through code optimization",
-        "Led cross-functional team of 8 developers across 3 projects",
-        "Implemented comprehensive CI/CD pipeline reducing deployment time by 60%",
-        "Established coding standards and best practices across organization"
-      ],
-      technologies: [
-        { name: "React.js", color: "#61DAFB" },
-        { name: "Node.js", color: "#339933" },
-        { name: "Next.js", color: "#000000" },
-        { name: "TypeScript", color: "#3178C6" },
-        { name: "Docker", color: "#2496ED" },
-        { name: "AWS", color: "#FF9900" }
-      ],
+      company: "Tech Innovation Corp",
+      period: "2023 - Present",
+      description: "Leading development of scalable web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.",
+      icon: <Code className="w-6 h-6" />,
+      color: "bg-amber-600",
       side: "left",
-      metrics: { projects: "25+", team: "8", performance: "45%" }
+      pathPoint: 0
     },
     {
       id: 2,
-      title: "Full Stack Developer",
-      company: "Digital Solutions Co.",
-      period: "2020 - 2022",
-      description: "Developed comprehensive web solutions using modern JavaScript frameworks. Created responsive, user-friendly interfaces while building robust backend APIs and database architectures.",
-      achievements: [
-        "Built 20+ production-ready web applications from scratch",
-        "Reduced average page load time by 65% through optimization",
-        "Mentored 5 junior developers and conducted code reviews",
-        "Integrated third-party APIs and payment systems successfully"
-      ],
-      technologies: [
-        { name: "React.js", color: "#61DAFB" },
-        { name: "Express.js", color: "#000000" },
-        { name: "MongoDB", color: "#47A248" },
-        { name: "PostgreSQL", color: "#336791" },
-        { name: "Redis", color: "#DC382D" },
-        { name: "AWS", color: "#FF9900" }
-      ],
+      title: "Frontend Team Lead",
+      company: "Digital Solutions Ltd",
+      period: "2021 - 2023",
+      description: "Led a team of 5 developers in creating responsive user interfaces. Implemented design systems and improved development workflows by 40%.",
+      icon: <Users className="w-6 h-6" />,
+      color: "bg-orange-600",
       side: "right",
-      metrics: { projects: "20+", performance: "65%", apis: "15+" }
+      pathPoint: 1
     },
     {
       id: 3,
-      title: "Frontend Developer",
-      company: "Creative Agency",
-      period: "2018 - 2020",
-      description: "Specialized in creating engaging user interfaces and interactive experiences. Collaborated with design teams to implement pixel-perfect designs while ensuring optimal user experience across all devices.",
-      achievements: [
-        "Developed comprehensive design system used across 12 projects",
-        "Improved user engagement metrics by 40% through UX optimization",
-        "Delivered 30+ client projects with 98% satisfaction rate",
-        "Implemented advanced animations and interactive components"
-      ],
-      technologies: [
-        { name: "Vue.js", color: "#4FC08D" },
-        { name: "JavaScript", color: "#F7DF1E" },
-        { name: "Sass", color: "#CC6699" },
-        { name: "Webpack", color: "#8DD6F9" },
-        { name: "Figma", color: "#F24E1E" },
-        { name: "GSAP", color: "#88CE02" }
-      ],
+      title: "Full Stack Developer",
+      company: "StartupXYZ",
+      period: "2020 - 2021",
+      description: "Built and maintained web applications from scratch. Collaborated with cross-functional teams using agile methodologies and modern tech stack.",
+      icon: <Rocket className="w-6 h-6" />,
+      color: "bg-yellow-600",
       side: "left",
-      metrics: { projects: "30+", satisfaction: "98%", engagement: "40%" }
+      pathPoint: 2
     },
     {
       id: 4,
-      title: "Junior Web Developer",
-      company: "StartUp Hub",
-      period: "2017 - 2018",
-      description: "Began professional journey building responsive websites and learning modern development practices. Focused on mastering fundamental technologies while contributing to various client projects.",
-      achievements: [
-        "Successfully completed 15+ website projects for small businesses",
-        "Learned and implemented modern JavaScript frameworks",
-        "Contributed to 5 open-source projects on GitHub",
-        "Maintained 99% uptime for all deployed applications"
-      ],
-      technologies: [
-        { name: "HTML5", color: "#E34F26" },
-        { name: "CSS3", color: "#1572B6" },
-        { name: "JavaScript", color: "#F7DF1E" },
-        { name: "jQuery", color: "#0769AD" },
-        { name: "Bootstrap", color: "#7952B3" },
-        { name: "Git", color: "#F05032" }
-      ],
+      title: "Junior Developer",
+      company: "WebCorp Agency",
+      period: "2019 - 2020",
+      description: "Developed client websites and learned industry best practices. Gained experience in React, Node.js, and database management.",
+      icon: <Building className="w-6 h-6" />,
+      color: "bg-red-600",
       side: "right",
-      metrics: { projects: "15+", uptime: "99%", opensource: "5" }
+      pathPoint: 3
+    },
+    {
+      id: 5,
+      title: "Frontend Developer Intern",
+      company: "Creative Studio",
+      period: "2018 - 2019",
+      description: "Created interactive web components and assisted in UI/UX design implementation. Learned responsive design and modern CSS frameworks.",
+      icon: <Coffee className="w-6 h-6" />,
+      color: "bg-amber-700",
+      side: "left",
+      pathPoint: 4
+    },
+    {
+      id: 6,
+      title: "Computer Science Graduate",
+      company: "University Name",
+      period: "2016 - 2020",
+      description: "Completed Bachelor's degree with focus on software engineering, data structures, and algorithms. Participated in coding competitions and hackathons.",
+      icon: <GraduationCap className="w-6 h-6" />,
+      color: "bg-orange-700",
+      side: "right",
+      pathPoint: 5
+    },
+    {
+      id: 7,
+      title: "Freelance Developer",
+      company: "Various Clients",
+      period: "2017 - Present",
+      description: "Developed custom websites and web applications for small businesses. Specialized in e-commerce solutions and portfolio websites.",
+      icon: <Briefcase className="w-6 h-6" />,
+      color: "bg-yellow-700",
+      side: "left",
+      pathPoint: 6
     }
   ];
 
-  const navigateToItem = (direction) => {
-    if (!gsapInstance) return;
-    
-    let newIndex = activeItem;
-    
-    if (direction === 'prev' && activeItem > 0) {
-      newIndex = activeItem - 1;
-    } else if (direction === 'next' && activeItem < experiences.length - 1) {
-      newIndex = activeItem + 1;
-    } else if (typeof direction === 'number') {
-      newIndex = direction;
-    }
-    
-    if (newIndex !== activeItem && experienceItemsRef.current[newIndex]) {
-      const targetElement = experienceItemsRef.current[newIndex];
-      const offsetTop = targetElement.offsetTop - window.innerHeight / 2 + 300;
-      
-      gsapInstance.to(window, {
-        duration: 1.5,
-        scrollTo: {
-          y: offsetTop,
-          autoKill: false
-        },
-        ease: "power2.inOut"
-      });
-      
-      setActiveItem(newIndex);
-    }
-  };
-
   useEffect(() => {
-    const initializeScrollAnimations = async () => {
-      const { gsap, ScrollTrigger } = await loadGSAP();
-      setGsapInstance(gsap);
-      
-      // Clear any existing ScrollTriggers
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      
-      // Enable smooth scrolling
-      gsap.set("html", { scrollBehavior: "auto" });
-      
-      // Set initial states with more dramatic effects
-      gsap.set(experienceItemsRef.current, {
-        opacity: 0,
-        x: (i) => experiences[i].side === 'left' ? -300 : 300,
-        y: 150,
-        scale: 0.6,
-        rotation: (i) => experiences[i].side === 'left' ? -20 : 20,
-        transformOrigin: "center center"
-      });
+    const container = containerRef.current;
+    const path = pathRef.current;
 
-      gsap.set('.timeline-dot', {
-        scale: 0,
-        opacity: 0,
-        rotation: 360,
-        transformOrigin: "center center"
-      });
+    if (!container || !path) return;
 
-      gsap.set('.tech-badge', {
-        scale: 0,
-        opacity: 0,
-        y: 50,
-        rotation: 45
-      });
+    // Set initial path styles
+    const pathLength = path.getTotalLength();
+    gsap.set(path, {
+      strokeDasharray: pathLength,
+      strokeDashoffset: pathLength
+    });
 
-      gsap.set('.achievement-item', {
+    // Create main timeline for path animation
+    const pathTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const offset = pathLength - (pathLength * progress);
+          gsap.set(path, { strokeDashoffset: offset });
+        }
+      }
+    });
+
+    // Animate each timeline item
+    const items = container.querySelectorAll('.timeline-item');
+    items.forEach((item, index) => {
+      const isLeft = experiences[index].side === 'left';
+
+      // Set initial states
+      gsap.set(item, {
         opacity: 0,
-        x: -80,
         scale: 0.7,
-        rotation: -5
+        x: isLeft ? -100 : 100,
+        y: 50
       });
 
-      gsap.set('.metric-item', {
-        opacity: 0,
-        scale: 0.3,
-        rotation: 90,
-        y: 20
-      });
-
-      gsap.set('.curved-path', {
-        strokeDasharray: "1000",
-        strokeDashoffset: "1000",
-        opacity: 0
-      });
-
-      // Enhanced background parallax with rotation
-      gsap.to(backgroundTextRef.current, {
-        y: -150,
-        rotation: 10,
-        scale: 1.2,
-        opacity: 0.3,
+      // Animate item appearance
+      gsap.to(item, {
+        opacity: 1,
+        scale: 1,
+        x: 0,
+        y: 0,
+        duration: 0.8,
+        ease: "back.out(1.7)",
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 2,
-          onUpdate: (self) => {
-            setScrollProgress(self.progress);
-          }
+          trigger: item,
+          start: "top 90%",
+          end: "top 50%",
+          toggleActions: "play none none reverse"
         }
       });
 
-      // Header animation with enhanced effects
-      gsap.fromTo(headerRef.current?.children, 
-        {
-          opacity: 0,
-          y: -120,
-          scale: 0.6,
-          rotation: 15,
-          transformOrigin: "center center"
-        },
-        {
-          opacity: 1,
-          y: 0,
+      // Animate the timeline pin
+      const pin = item.querySelector('.timeline-pin');
+      if (pin) {
+        gsap.set(pin, { scale: 0, rotation: 180 });
+        gsap.to(pin, {
           scale: 1,
           rotation: 0,
-          duration: 1.5,
-          ease: "elastic.out(1, 0.8)",
-          stagger: 0.4,
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
-
-      // Timeline line with smooth reveal
-      gsap.fromTo(timelineLineRef.current,
-        { 
-          scaleY: 0, 
-          transformOrigin: "top center",
-          opacity: 0.5
-        },
-        {
-          scaleY: 1,
-          opacity: 1,
-          duration: 2.5,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: timelineLineRef.current,
-            start: "top 90%",
-            end: "bottom 10%",
-            scrub: 1.5
-          }
-        }
-      );
-
-      // Curved paths animation
-      curvedPathsRef.current.forEach((path, index) => {
-        if (path) {
-          gsap.to(path, {
-            strokeDashoffset: 0,
-            opacity: 1,
-            duration: 2,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: experienceItemsRef.current[index],
-              start: "top 80%",
-              end: "bottom 20%",
-              toggleActions: "play none none reverse"
-            }
-          });
-        }
-      });
-
-      // Enhanced experience items animation
-      experienceItemsRef.current.forEach((item, index) => {
-        if (!item) return;
-
-        const experience = experiences[index];
-        const tl = gsap.timeline({
+          duration: 0.6,
+          delay: 0.3,
+          ease: "elastic.out(1, 0.75)",
           scrollTrigger: {
             trigger: item,
             start: "top 85%",
-            end: "bottom 15%",
-            toggleActions: "play none none reverse",
-            scrub: false,
-            onEnter: () => {
-              setVisibleItems(prev => new Set([...prev, index]));
-              setActiveItem(index);
-            },
-            onLeave: () => {
-              setVisibleItems(prev => {
-                const newSet = new Set(prev);
-                newSet.delete(index);
-                return newSet;
-              });
-            },
-            onEnterBack: () => {
-              setVisibleItems(prev => new Set([...prev, index]));
-              setActiveItem(index);
-            },
-            onLeaveBack: () => {
-              setVisibleItems(prev => {
-                const newSet = new Set(prev);
-                newSet.delete(index);
-                return newSet;
-              });
-            }
+            toggleActions: "play none none reverse"
           }
         });
+      }
 
-        // Main card animation with enhanced effects
-        tl.to(item, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          rotation: 0,
-          duration: 1.5,
-          ease: "back.out(1.7)",
-          transformOrigin: "center center"
-        })
-        
-        // Timeline dot with bounce effect
-        .to(item.parentElement.querySelector('.timeline-dot'), {
-          scale: 1,
-          opacity: 1,
-          rotation: 0,
-          duration: 1,
-          ease: "elastic.out(1, 0.5)"
-        }, "-=1")
-        
-        // Tech badges with wave effect
-        .to(item.querySelectorAll('.tech-badge'), {
-          scale: 1,
+      // Animate the content card
+      const card = item.querySelector('.timeline-card');
+      if (card) {
+        gsap.set(card, {
+          opacity: 0,
+          y: 30,
+          scale: 0.9
+        });
+        gsap.to(card, {
           opacity: 1,
           y: 0,
-          rotation: 0,
-          duration: 0.8,
-          ease: "back.out(2)",
-          stagger: 0.15
-        }, "-=0.8")
-        
-        // Achievement items with cascade effect
-        .to(item.querySelectorAll('.achievement-item'), {
-          opacity: 1,
-          x: 0,
           scale: 1,
-          rotation: 0,
-          duration: 1,
-          ease: "power3.out",
-          stagger: 0.2
-        }, "-=0.6")
-        
-        // Metrics with pop effect
-        .to(item.querySelectorAll('.metric-item'), {
-          opacity: 1,
-          scale: 1,
-          rotation: 0,
-          y: 0,
-          duration: 0.8,
-          ease: "elastic.out(1, 0.8)",
-          stagger: 0.1
-        }, "-=0.4");
+          duration: 0.6,
+          delay: 0.4,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        });
+      }
 
-        // Enhanced hover animations with 3D effects
-        const onMouseEnter = () => {
-          gsap.to(item, {
-            scale: 1.05,
-            y: -20,
-            rotationX: 10,
-            rotationY: 5,
-            z: 100,
-            duration: 0.6,
-            ease: "power2.out"
-          });
-          
-          gsap.to(item.querySelectorAll('.tech-badge'), {
-            scale: 1.2,
-            rotation: 360,
-            duration: 0.5,
-            ease: "power2.out",
-            stagger: 0.05
-          });
+      // Animate connecting line
+      const connector = item.querySelector('.connector-line');
+      if (connector) {
+        gsap.set(connector, {
+          scaleX: 0,
+          transformOrigin: isLeft ? "right center" : "left center"
+        });
+        gsap.to(connector, {
+          scaleX: 1,
+          duration: 0.5,
+          delay: 0.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+          }
+        });
+      }
+    });
 
-          gsap.to(item.parentElement.querySelector('.timeline-dot'), {
-            scale: 1.3,
-            rotation: 360,
-            duration: 0.5,
-            ease: "power2.out"
-          });
-        };
-
-        const onMouseLeave = () => {
-          gsap.to(item, {
-            scale: 1,
-            y: 0,
-            rotationX: 0,
-            rotationY: 0,
-            z: 0,
-            duration: 0.6,
-            ease: "power2.out"
-          });
-          
-          gsap.to(item.querySelectorAll('.tech-badge'), {
-            scale: 1,
-            rotation: 0,
-            duration: 0.5,
-            ease: "power2.out",
-            stagger: 0.05
-          });
-
-          gsap.to(item.parentElement.querySelector('.timeline-dot'), {
-            scale: 1,
-            rotation: 0,
-            duration: 0.5,
-            ease: "power2.out"
-          });
-        };
-
-        item.addEventListener('mouseenter', onMouseEnter);
-        item.addEventListener('mouseleave', onMouseLeave);
-      });
-
-      // Smooth scroll progress tracking
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom bottom",
-        onUpdate: (self) => {
-          setScrollProgress(self.progress);
-        }
-      });
-
-      // Cleanup function
-      return () => {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      };
+    // Cleanup
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-
-    initializeScrollAnimations();
   }, []);
 
+  // GSAP Animation
+  useGSAP(() => {
+    const revealTl = gsap.timeline({
+      delay: 1,
+      scrollTrigger: {
+        trigger: ".experience-section",
+        start: "top 60%",
+        end: "top top",
+        scrub: 1.5,
+      },
+    });
+
+    revealTl
+      .to(".experience-section .fourth-title", {
+        duration: 1,
+        opacity: 1,
+        clipPath: "polygon(0% 0%, 100% 0, 100% 100%, 0% 100%)",
+        ease: "circ.out",
+      });
+  });
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 relative overflow-hidden">
-      {/* Enhanced Progress Indicator */}
-      <div className="fixed top-0 left-0 w-full h-3 bg-amber-200 z-50 shadow-lg">
-        <div 
-          className="h-full bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 transition-all duration-300 shadow-lg"
-          style={{ width: `${scrollProgress * 100}%` }}
-        />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 py-20 px-4 overflow-hidden">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <section className="experience-section">
 
-      {/* Navigation Controls */}
-      <NavigationControls 
-        currentIndex={activeItem}
-        totalItems={experiences.length}
-        onNavigate={navigateToItem}
-      />
-
-      {/* Enhanced Background */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
-        <div 
-          ref={backgroundTextRef}
-          className="text-9xl md:text-[300px] font-bold text-amber-200/15 select-none"
-          style={{ 
-            textShadow: '0 0 50px rgba(245, 158, 11, 0.1)',
-            filter: 'blur(1px)'
-          }}
-        >
-          JOURNEY
-        </div>
-      </div>
-
-      {/* Enhanced Floating Elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        {[...Array(40)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full opacity-30"
-            style={{
-              width: `${4 + Math.random() * 8}px`,
-              height: `${4 + Math.random() * 8}px`,
-              background: `linear-gradient(45deg, 
-                rgb(245, 158, 11, ${0.3 + Math.random() * 0.4}), 
-                rgb(251, 146, 60, ${0.2 + Math.random() * 0.3}))`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${4 + Math.random() * 6}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 3}s`
-            }}
-          />
-        ))}
-      </div>
-
-      <div ref={containerRef} className="relative z-10">
-        {/* Enhanced Header */}
-        <div ref={headerRef} className="text-center pt-24 pb-40 px-4">
-          <div className="inline-block mb-12">
-            <div className="bg-gradient-to-r from-amber-700 via-orange-700 to-red-700 text-white px-16 py-8 text-6xl md:text-7xl font-bold border-4 border-amber-100 shadow-2xl transform hover:rotate-1 transition-transform duration-500 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 animate-pulse"></div>
-              MY JOURNEY
-            </div>
-          </div>
-          <p className="text-amber-800 text-2xl md:text-3xl max-w-4xl mx-auto leading-relaxed font-medium">
-            From junior developer to senior architect - a story of growth, learning, and building amazing digital experiences.
-          </p>
-          <div className="mt-12 flex justify-center">
-            <div className="w-40 h-3 bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 rounded-full shadow-lg animate-pulse"></div>
-          </div>
-        </div>
-
-        {/* Enhanced Timeline Container */}
-        <div className="max-w-8xl mx-auto px-4 pb-40">
-          <div className="relative">
-            {/* Enhanced Timeline Line */}
-            <div 
-              ref={timelineLineRef}
-              className="absolute left-1/2 transform -translate-x-1/2 w-4 rounded-full shadow-xl"
-              style={{ 
-                height: `${experiences.length * 700}px`,
-                background: 'linear-gradient(to bottom, #d97706, #ea580c, #dc2626)',
-                boxShadow: '0 0 30px rgba(245, 158, 11, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.2)'
-              }}
+          <div className="mt-20 col-center">
+            <ClipPathTitle
+              title={"MY JOURNEY"}
+              color={"#2E2D2F"}
+              bg={"#FED777"}
+              className={"fourth-title"}
+              borderColor={"#222123"}
             />
 
-            {/* Enhanced SVG Connections */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
-              <defs>
-                <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(217, 119, 6, 0.9)" />
-                  <stop offset="30%" stopColor="rgba(251, 146, 60, 0.7)" />
-                  <stop offset="70%" stopColor="rgba(239, 68, 68, 0.6)" />
-                  <stop offset="100%" stopColor="rgba(220, 38, 38, 0.4)" />
-                </linearGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
-              {experiences.map((_, index) => {
-                if (index === experiences.length - 1) return null;
-                const startY = 350 + (index * 700);
-                const endY = 350 + ((index + 1) * 700);
-                const isLeft = experiences[index].side === 'left';
-                
-                return (
-                  <path
-                    key={index}
-                    ref={el => curvedPathsRef.current[index] = el}
-                    className="curved-path"
-                    d={`M ${isLeft ? 350 : 650} ${startY} Q 500 ${startY + 200} ${isLeft ? 650 : 350} ${endY}`}
-                    fill="none"
-                    stroke="url(#connectionGradient)"
-                    strokeWidth="6"
-                    filter="url(#glow)"
-                    opacity="0"
-                  />
-                );
-              })}
-            </svg>
+          </div>
 
-            {/* Enhanced Experience Items */}
-            <div className="relative space-y-40" style={{ zIndex: 2 }}>
-              {experiences.map((experience, index) => (
+        </section>
+        <div ref={paragraphRef} className="text-center mb-16">
+            <p>
+              Follow the path of my professional evolution through technology and innovation
+            </p>
+          </div>
+  
+        {/* Timeline Container */}
+        <div ref={containerRef} className="relative min-h-[200vh]">
+          {/* Snake Path SVG */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{ zIndex: 1 }}
+            viewBox="0 0 400 1400"
+            preserveAspectRatio="xMidYMin meet"
+          >
+            <defs>
+              <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#d97706" />
+                <stop offset="25%" stopColor="#ea580c" />
+                <stop offset="50%" stopColor="#dc2626" />
+                <stop offset="75%" stopColor="#c2410c" />
+                <stop offset="100%" stopColor="#a16207" />
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <path
+              ref={pathRef}
+              d="M200,50 
+                 Q250,100 200,150 
+                 Q150,200 200,250 
+                 Q250,300 200,350 
+                 Q150,400 200,450 
+                 Q250,500 200,550 
+                 Q150,600 200,650 
+                 Q250,700 200,750 
+                 Q150,800 200,850 
+                 Q250,900 200,950 
+                 Q150,1000 200,1050 
+                 Q250,1100 200,1150 
+                 Q150,1200 200,1250 
+                 Q250,1300 200,1350"
+              stroke="url(#pathGradient)"
+              strokeWidth="6"
+              fill="none"
+              filter="url(#glow)"
+              className="drop-shadow-lg"
+            />
+          </svg>
+
+          {/* Timeline Items */}
+          <div ref={timelineRef} className="relative" style={{ zIndex: 2 }}>
+            {experiences.map((exp, index) => (
+              <div
+                key={exp.id}
+                className="timeline-item absolute w-full"
+                style={{
+                  top: `${100 + index * 180}px`,
+                  left: 0
+                }}
+              >
+                {/* Timeline Pin */}
                 <div
-                  key={experience.id}
-                  className={`relative flex items-center min-h-[600px] ${
-                    experience.side === 'left' ? 'justify-start' : 'justify-end'
-                  }`}
+                  className={`timeline-pin absolute left-1/2 transform -translate-x-1/2 w-20 h-20 ${exp.color} rounded-full flex items-center justify-center text-white shadow-2xl z-20 border-4 border-amber-100`}
                 >
-                  {/* Enhanced Timeline Dot */}
-                  <div className={`timeline-dot absolute left-1/2 transform -translate-x-1/2 w-28 h-28 rounded-full shadow-2xl flex items-center justify-center font-bold text-white text-4xl border-6 border-amber-100 z-30 transition-all duration-500 ${
-                    activeItem === index ? 'ring-4 ring-amber-400' : ''
-                  }`}
-                  style={{
-                    background: `linear-gradient(135deg, 
-                      rgb(180, 83, 9), 
-                      rgb(234, 88, 12), 
-                      rgb(220, 38, 38))`
-                  }}>
-                    {experience.id}
-                  </div>
-
-                  {/* Enhanced Experience Card */}
-                  <div
-                    ref={(el) => (experienceItemsRef.current[index] = el)}
-                    className={`w-full max-w-2xl bg-white/95 backdrop-blur-lg rounded-3xl p-12 shadow-2xl border-3 border-amber-200 cursor-pointer transition-all duration-700 hover:shadow-3xl ${
-                      experience.side === 'left' ? 'mr-auto ml-8' : 'ml-auto mr-8'
-                    } ${visibleItems.has(index) ? 'ring-2 ring-amber-400' : ''}`}
-                    style={{
-                      boxShadow: visibleItems.has(index) 
-                        ? '0 25px 50px rgba(245, 158, 11, 0.2), 0 0 30px rgba(245, 158, 11, 0.1)' 
-                        : '0 25px 50px rgba(0, 0, 0, 0.1)'
-                    }}
-                  >
-                    {/* Enhanced Card Header */}
-                    <div className="bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 text-white px-10 py-8 rounded-2xl mb-8 text-center shadow-lg relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12"></div>
-                      <div className="relative z-10">
-                        <div className="text-3xl font-bold mb-3">{experience.title}</div>
-                        <div className="text-xl opacity-90">{experience.company}</div>
-                      </div>
-                    </div>
-
-                    {/* Enhanced Period & Metrics */}
-                    <div className="flex justify-between items-center mb-8">
-                      <div className="text-amber-800 font-bold text-xl bg-gradient-to-r from-amber-100 to-orange-100 py-4 px-8 rounded-full shadow-lg">
-                        {experience.period}
-                      </div>
-                      <div className="flex gap-6">
-                        {Object.entries(experience.metrics).map(([key, value], metricIndex) => (
-                          <div key={metricIndex} className="metric-item text-center">
-                            <div className="text-3xl font-bold text-amber-700">{value}</div>
-                            <div className="text-sm text-amber-600 capitalize font-medium">{key}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Enhanced Description */}
-                    <p className="text-amber-900 text-lg leading-relaxed mb-10 text-center font-medium">
-                      {experience.description}
-                    </p>
-
-                    {/* Enhanced Achievements */}
-                    <div className="mb-10">
-                      <h4 className="text-amber-800 font-bold mb-6 text-2xl text-center">Key Achievements</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {experience.achievements.map((achievement, achIndex) => (
-                          <div key={achIndex} className="achievement-item flex items-start text-amber-700 p-2 rounded-lg">
-                            <span className="w-4 h-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mr-4 mt-2 flex-shrink-0 shadow-lg"></span>
-                            <span className="text-sm leading-relaxed font-medium">{achievement}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Enhanced Technology Stack with SVG Icons */}
-                    <div className="text-center">
-                      <h4 className="text-amber-800 font-bold mb-6 text-2xl">Technology Stack</h4>
-                      <div className="flex flex-wrap gap-4 justify-center">
-                        {experience.technologies.map((tech, techIndex) => (
-                          <div
-                            key={techIndex}
-                            className={`tech-badge bg-white border-2 text-gray-800 px-6 py-4 rounded-full text-sm font-medium shadow-lg flex items-center gap-3 transform hover:scale-110 transition-all duration-300 cursor-pointer hover:shadow-xl`}
-                            style={{
-                              borderColor: tech.color,
-                              boxShadow: `0 8px 16px rgba(0, 0, 0, 0.1), 0 0 20px ${tech.color}20`
-                            }}
-                          >
-                            <TechIcon name={tech.name} color={tech.color} size={20} />
-                            <span>{tech.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  {exp.icon}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent"></div>
                 </div>
-              ))}
-            </div>
+
+                {/* Connecting Line */}
+                <div
+                  className={`connector-line absolute top-10 h-1 bg-gradient-to-r from-amber-400 to-orange-500 ${exp.side === 'left' ? 'right-1/2 mr-10' : 'left-1/2 ml-10'
+                    } w-16 z-10`}
+                ></div>
+
+                {/* Content Card */}
+                <div
+                  className={`timeline-card absolute top-0 w-80 bg-amber-50/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-amber-200/50 ${exp.side === 'left'
+                      ? 'right-1/2 mr-24'
+                      : 'left-1/2 ml-24'
+                    }`}
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-amber-900 mb-2">
+                        {exp.title}
+                      </h3>
+                      <p className="text-orange-700 font-semibold mb-2">
+                        {exp.company}
+                      </p>
+                      <p className="text-sm text-amber-700 mb-3">
+                        {exp.period}
+                      </p>
+                    </div>
+                    <div className={`${exp.color} w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg`}>
+                      {exp.id}
+                    </div>
+                  </div>
+
+                  <p className="text-amber-800 text-sm leading-relaxed mb-4">
+                    {exp.description}
+                  </p>
+
+                  {/* Progress bar */}
+                  <div className="w-full bg-amber-200 rounded-full h-2">
+                    <div
+                      className={`h-2 rounded-full bg-gradient-to-r ${exp.color.replace('bg-', 'from-')} to-amber-300`}
+                      style={{ width: `${(experiences.length - index) * 15}%` }}
+                    ></div>
+                  </div>
+
+                  {/* Floating orbs */}
+                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-orange-400 rounded-full animate-pulse opacity-70"></div>
+                  <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-amber-400 rounded-full animate-bounce opacity-60"></div>
+                </div>
+
+                {/* Floating particles */}
+                <div
+                  className="absolute w-2 h-2 bg-orange-400 rounded-full animate-float opacity-70"
+                  style={{
+                    left: exp.side === 'left' ? '30%' : '70%',
+                    top: '20px',
+                    animationDelay: `${index * 0.2}s`
+                  }}
+                ></div>
+                <div
+                  className="absolute w-1 h-1 bg-amber-400 rounded-full animate-float opacity-80"
+                  style={{
+                    left: exp.side === 'left' ? '25%' : '75%',
+                    top: '40px',
+                    animationDelay: `${index * 0.3}s`
+                  }}
+                ></div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Enhanced Footer */}
-        <div className="text-center pb-32 px-4">
-          <div className="max-w-5xl mx-auto bg-gradient-to-r from-amber-100 via-orange-100 to-red-100 rounded-3xl p-16 shadow-2xl">
-            <h3 className="text-4xl font-bold text-amber-800 mb-6">
-              Ready for the Next Chapter?
-            </h3>
-            <p className="text-amber-700 text-2xl leading-relaxed mb-8">
-              Let's collaborate and create something extraordinary together. The journey continues! 🚀
-            </p>
-            <div className="flex justify-center">
-              <div className="w-32 h-4 bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 rounded-full shadow-lg animate-pulse"></div>
+        {/* Achievement Stats */}
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { number: "7+", label: "Years Experience", color: "text-amber-700" },
+            { number: "100+", label: "Projects", color: "text-orange-700" },
+            { number: "25+", label: "Technologies", color: "text-red-700" },
+            { number: "95%", label: "Client Satisfaction", color: "text-yellow-700" }
+          ].map((stat, index) => (
+            <div key={index} className="text-center">
+              <div className={`text-4xl font-bold ${stat.color} mb-2`}>
+                {stat.number}
+              </div>
+              <div className="text-amber-800">{stat.label}</div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
+      {/* Custom CSS for animations */}
       <style jsx>{`
         @keyframes float {
-          0%, 100% { 
-            transform: translateY(0px) rotate(0deg) scale(1); 
-            opacity: 0.3;
-          }
-          50% { 
-            transform: translateY(-30px) rotate(180deg) scale(1.2); 
-            opacity: 0.8;
-          }
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
         }
-        
-        html {
-          scroll-behavior: smooth;
-        }
-        
-        .shadow-3xl {
-          box-shadow: 0 35px 60px rgba(0, 0, 0, 0.15);
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
         }
       `}</style>
     </div>
   );
 };
 
-export default Experience;  
+export default Experience;
