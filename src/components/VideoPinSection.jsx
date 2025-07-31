@@ -40,7 +40,7 @@ const VideoPinSection = () => {
 
         <div className="abs-center md:scale-100 scale-200">
           <img src="/images/circle-text.svg" alt="" className="spin-circle" />
-          <div className="play-btn">
+          <div className="play-btn cursor-hover">
             <img
               src="/images/play.svg"
               alt=""

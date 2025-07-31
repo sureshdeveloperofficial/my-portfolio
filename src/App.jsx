@@ -10,6 +10,7 @@ import BenefitSection from "./sections/BenefitSection";
 import SmoothSkillsAnimation from "./sections/SmoothSkillsAnimation";
 import FooterSection from "./sections/FooterSection";
 import Experience from "./sections/Experience";
+import MagneticCursor from "./components/MagneticCursor";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -23,6 +24,7 @@ const App = () => {
 
   return (
     <main>
+      <MagneticCursor />
       <NavBar />
       <div id="smooth-wrapper">
         <div id="smooth-content">

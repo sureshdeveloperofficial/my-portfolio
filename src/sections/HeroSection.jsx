@@ -100,7 +100,7 @@ const HeroSection = () => {
           A passionate Full-Stack Developer crafting digital experiences with modern technologies and creative solutions.
           </h2>
 
-          <div className="hero-button">
+          <div className="hero-button cursor-hover">
             <p>Get my CV</p>
           </div>
         </div>

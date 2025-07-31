@@ -312,7 +312,7 @@ const FooterSection = () => {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group relative p-6 rounded-2xl ${bgColor} ${hoverColor} transition-all duration-300 hover:scale-110 hover:rotate-6 shadow-2xl hover:shadow-3xl transform hover:-translate-y-2`}
+              className={`group relative p-6 rounded-2xl ${bgColor} ${hoverColor} transition-all duration-300 hover:scale-110 hover:rotate-6 shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 cursor-hover`}
               onMouseEnter={() => setIsHovered(index)}
               onMouseLeave={() => setIsHovered(null)}
               aria-label={label}
@@ -345,7 +345,7 @@ const FooterSection = () => {
         {/* Bold Copyright */}
         <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-200">
           <p className="text-gray-800 font-semibold text-lg">
-            © 2025 <span className="text-orange-600 font-bold">YOUR NAME</span> 
+            © 2025 <span className="text-orange-600 font-bold">All Rights Reserved</span> 
             <br />
             <span className="text-sm text-gray-600">Crafted with passion, code, and lots of ☕</span>
           </p>
