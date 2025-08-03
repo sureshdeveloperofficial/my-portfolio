@@ -1,10 +1,10 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
+import EagleAnimation from "../components/EagleAnimation";
 
 
 const HeroSection = () => {
-
   useGSAP(() => {
     const titleSplit = SplitText.create(".hero-title", {
       type: "chars",
@@ -62,8 +62,11 @@ const HeroSection = () => {
   });
 
   return (
-    <section className="bg-amber-700">
+    <section className="bg-amber-700 relative overflow-hidden">
       <div className="hero-container">
+        {/* Eagle Animation */}
+        <EagleAnimation />
+        
         {/* Circle mask overlay */}
         <div 
           className="hero-circle-mask"
@@ -81,7 +84,7 @@ const HeroSection = () => {
           }}
         />
        
-        <div className="hero-content opacity-0">
+        <div className="hero-content opacity-0" style={{ zIndex: 20 }}>
           <div className="overflow-hidden">
             <h1 className="hero-title">Hi I'm</h1>
           </div>
