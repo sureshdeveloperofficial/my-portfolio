@@ -1,7 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import ClipPathTitle from "../components/ClipPathTitle";
 import gsap from "gsap";
-import VideoPinSection from "../components/VideoPinSection";
 
 const BenefitSection = () => {
   useGSAP(() => {
@@ -47,34 +46,34 @@ const BenefitSection = () => {
       <div className="container mx-auto pt-20">
         <div className="col-center">
           <p>
-            Unlock the Advantages: <br />
-            Explore the Key Benefits of Choosing SPYLT
+            What I Bring to the Table: <br />
+            Explore My Core Developer Skills
           </p>
 
           <div className="mt-20 col-center">
             <ClipPathTitle
-              title={"Shelf stable"}
-              color={"#faeade"}
-              bg={"#c88e64"}
+              title={"Full Stack Expertise"}
+              color={"#f0f0f0"}
+              bg={"#007acc"}
               className={"first-title"}
               borderColor={"#222123"}
             />
             <ClipPathTitle
-              title={"Protein + Caffeine"}
-              color={"#222123"}
-              bg={"#faeade"}
+              title={"Cloud Deployment"}
+              color={"#ffffff"}
+              bg={"#2D3748"}
               className={"second-title"}
               borderColor={"#222123"}
             />
             <ClipPathTitle
-              title={"Infinitely recyclable"}
+              title={"Secure Auth & APIs"}
               color={"#faeade"}
-              bg={"#7F3B2D"}
+              bg={"#38A169"}
               className={"third-title"}
               borderColor={"#222123"}
             />
             <ClipPathTitle
-              title={"Lactose free"}
+              title={"Clean & Scalable Code"}
               color={"#2E2D2F"}
               bg={"#FED775"}
               className={"fourth-title"}
@@ -83,13 +82,9 @@ const BenefitSection = () => {
           </div>
 
           <div className="md:mt-0 mt-10">
-            <p>And much more ...</p>
+            <p>...and always eager to learn more</p>
           </div>
         </div>
-      </div>
-
-      <div className="relative overlay-box">
-        <VideoPinSection />
       </div>
     </section>
   );
