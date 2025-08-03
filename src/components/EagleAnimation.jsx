@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -9,62 +9,75 @@ const EagleAnimation = () => {
   const eagleRef = useRef(null);
   const animationMixerRef = useRef(null);
   const clockRef = useRef(new THREE.Clock());
+  const animationIdRef = useRef(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    if (!mountRef.current) {
+    if (!mountRef.current || isInitialized) {
       return;
     }
 
-    try {
-      // Scene setup
-      const scene = new THREE.Scene();
-      sceneRef.current = scene;
+    let scene, camera, renderer, pointLight;
 
-      // Camera setup - adjusted for better view
-      const camera = new THREE.PerspectiveCamera(
-        60, // Reduced FOV for better perspective
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-      );
-      camera.position.set(0, 3, 10); // Moved camera back and up for better eagle view
+    const initializeScene = () => {
+      try {
+        // Scene setup
+        scene = new THREE.Scene();
+        sceneRef.current = scene;
 
-      // Renderer setup
-      const renderer = new THREE.WebGLRenderer({ 
-        alpha: true,
-        antialias: true 
-      });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x000000, 0);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      rendererRef.current = renderer;
+        // Camera setup - adjusted for better view
+        camera = new THREE.PerspectiveCamera(
+          75, // Increased FOV for better visibility
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        camera.position.set(0, 2, 8); // Moved camera closer and lower
 
-      mountRef.current.appendChild(renderer.domElement);
+        // Renderer setup
+        renderer = new THREE.WebGLRenderer({ 
+          alpha: true,
+          antialias: true 
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        rendererRef.current = renderer;
 
-      // Enhanced lighting for dramatic effect
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Increased ambient light
-      scene.add(ambientLight);
+        mountRef.current.appendChild(renderer.domElement);
 
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1.8); // Increased intensity
-      directionalLight.position.set(10, 10, 5);
-      directionalLight.castShadow = true;
-      directionalLight.shadow.mapSize.width = 2048;
-      directionalLight.shadow.mapSize.height = 2048;
-      scene.add(directionalLight);
+        // Enhanced lighting for dramatic effect
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // Increased ambient light
+        scene.add(ambientLight);
 
-      // Add warm rim light for dramatic effect
-      const rimLight = new THREE.DirectionalLight(0xffa500, 1.0); // Increased intensity
-      rimLight.position.set(-10, 5, -5);
-      scene.add(rimLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 2.0); // Increased intensity
+        directionalLight.position.set(10, 10, 5);
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 2048;
+        directionalLight.shadow.mapSize.height = 2048;
+        scene.add(directionalLight);
 
-      // Add a subtle point light that follows the eagle
-      const pointLight = new THREE.PointLight(0xffffff, 0.5, 20);
-      pointLight.position.set(0, 5, 0);
-      scene.add(pointLight);
+        // Add warm rim light for dramatic effect
+        const rimLight = new THREE.DirectionalLight(0xffa500, 1.2); // Increased intensity
+        rimLight.position.set(-10, 5, -5);
+        scene.add(rimLight);
 
-      // Fallback eagle creation function (in case model fails to load)
-      const createFallbackEagle = () => {
+        // Add a subtle point light that follows the eagle
+        pointLight = new THREE.PointLight(0xffffff, 0.8, 20); // Increased intensity
+        pointLight.position.set(0, 5, 0);
+        scene.add(pointLight);
+
+        return true;
+      } catch (error) {
+        console.error('Error initializing scene:', error);
+        return false;
+      }
+    };
+
+    // Fallback eagle creation function
+    const createFallbackEagle = () => {
+      try {
         const eagleGroup = new THREE.Group();
         
         // Create eagle body
@@ -95,144 +108,221 @@ const EagleAnimation = () => {
         head.position.set(0, 1.5, 0);
         eagleGroup.add(head);
         
-        eagleGroup.scale.set(0.8, 0.8, 0.8);
-        eagleGroup.position.set(-8, 3, 0);
+        eagleGroup.scale.set(1.0, 1.0, 1.0); // Increased scale
+        eagleGroup.position.set(-6, 3, 0); // Start position for better visibility
         
         eagleRef.current = eagleGroup;
         scene.add(eagleGroup);
         
-        // Start flying animation
-        animateEagle();
-      };
+        console.log('Fallback eagle created successfully at position:', eagleGroup.position);
+        return true;
+      } catch (error) {
+        console.error('Error creating fallback eagle:', error);
+        return false;
+      }
+    };
 
-      // Load the actual eagle model
-      const loader = new GLTFLoader();
-      loader.load(
-        '/models/eagle.glb',
-        (gltf) => {
-          const eagle = gltf.scene;
-          eagleRef.current = eagle;
-          
-          // Scale and position the eagle - adjusted for circular flight
-          eagle.scale.set(1.2, 1.2, 1.2);
-          eagle.position.set(0, 4, 0); // Start at center for circular motion
-          
-          // Enable shadows
-          eagle.traverse((child) => {
-            if (child.isMesh) {
-              child.castShadow = true;
-              child.receiveShadow = true;
-            }
-          });
+    // Enhanced flying animation with more visible movement
+    const animateEagle = () => {
+      if (!eagleRef.current) {
+        console.log('No eagle reference found');
+        return;
+      }
 
-          scene.add(eagle);
-
-          // Setup animation mixer for the model's built-in animations
-          if (gltf.animations && gltf.animations.length > 0) {
-            const mixer = new THREE.AnimationMixer(eagle);
-            animationMixerRef.current = mixer;
-            
-            // Play all animations
-            gltf.animations.forEach((clip) => {
-              mixer.clipAction(clip).play();
-            });
+      const eagle = eagleRef.current;
+      const time = Date.now() * 0.001;
+      
+      // More dramatic flight pattern - figure-8 pattern for better visibility
+      const radiusX = 6; // Horizontal radius
+      const radiusY = 2; // Vertical radius
+      const centerX = 0;
+      const centerY = 3; // Lower center for better visibility
+      const centerZ = 0;
+      
+      // Figure-8 motion for more interesting flight
+      eagle.position.x = centerX + Math.sin(time * 0.5) * radiusX;
+      eagle.position.y = centerY + Math.sin(time * 1.0) * radiusY;
+      eagle.position.z = centerZ + Math.cos(time * 0.5) * 1; // Slight depth variation
+      
+      // Realistic eagle rotation based on movement direction
+      const speed = 0.5;
+      const nextX = centerX + Math.sin((time + 0.1) * speed) * radiusX;
+      const nextY = centerY + Math.sin((time + 0.1) * 1.0) * radiusY;
+      
+      // Calculate direction vector
+      const dirX = nextX - eagle.position.x;
+      const dirY = nextY - eagle.position.y;
+      
+      // Rotate eagle to face direction of travel
+      eagle.rotation.y = Math.atan2(dirX, Math.abs(dirY));
+      
+      // Add realistic tilting based on vertical movement
+      eagle.rotation.z = Math.sin(time * 1.0) * 0.1; // Gentle roll
+      eagle.rotation.x = Math.cos(time * 0.5) * 0.05; // Slight pitch
+      
+      // Wing flapping animation for fallback eagle
+      if (eagle.children.length > 0 && eagle.children[1] && eagle.children[1].geometry) {
+        eagle.children.forEach((child, index) => {
+          if (index === 1 || index === 2) { // Wings
+            const flapSpeed = 8;
+            const flapAmount = 0.3;
+            child.rotation.z = Math.sin(time * flapSpeed) * flapAmount + (index === 1 ? Math.PI / 4 : -Math.PI / 4);
           }
+        });
+      }
+      
+      // Debug logging every 2 seconds
+      if (Math.floor(time * 2) % 2 === 0 && Math.floor(time * 10) % 10 === 0) {
+        console.log('Eagle position:', eagle.position, 'Rotation:', eagle.rotation);
+      }
+    };
 
-          // Start flying animation
-          animateEagle();
-        },
-        (progress) => {
-          // Loading progress (optional)
-        },
-        (error) => {
-          console.error('Error loading eagle model:', error);
-          // Create fallback eagle if model fails to load
-          createFallbackEagle();
-        }
-      );
+    // Animation loop
+    const animate = () => {
+      animationIdRef.current = requestAnimationFrame(animate);
 
-      // Circular flying animation
-      const animateEagle = () => {
-        if (!eagleRef.current) return;
+      // Update animation mixer for GLB model animations
+      if (animationMixerRef.current) {
+        const delta = clockRef.current.getDelta();
+        animationMixerRef.current.update(delta);
+      }
 
-        const eagle = eagleRef.current;
-        const time = Date.now() * 0.001;
-        
-        // Circular flight pattern - stays within hero section boundaries
-        const radius = 8; // Radius of the circle
-        const centerX = 0;
-        const centerY = 4; // Keep eagle at consistent height
-        const centerZ = 0;
-        
-        // Smooth circular motion
-        eagle.position.x = centerX + Math.cos(time * 0.3) * radius;
-        eagle.position.y = centerY + Math.sin(time * 0.6) * 1; // Gentle vertical variation
-        eagle.position.z = centerZ + Math.sin(time * 0.3) * 2; // Slight depth variation
-        
-        // Realistic eagle rotation based on circular movement
-        eagle.rotation.y = Math.atan2(
-          Math.cos(time * 0.3 + Math.PI/2), 
-          Math.sin(time * 0.3 + Math.PI/2)
-        ); // Eagle faces direction of travel
-        eagle.rotation.z = Math.sin(time * 0.6) * 0.05; // Slight roll
-        eagle.rotation.x = Math.cos(time * 0.3) * 0.03; // Slight pitch
-        
-        // Wing flapping animation for fallback eagle (only if it's the geometric version)
-        if (eagle.children.length > 0 && eagle.children[1] && eagle.children[1].geometry) {
-          eagle.children.forEach((child, index) => {
-            if (index === 1 || index === 2) { // Wings
-              child.rotation.z = Math.sin(time * 6) * 0.2 + (index === 1 ? Math.PI / 4 : -Math.PI / 4);
-            }
-          });
-        }
-      };
+      // Update eagle position
+      animateEagle();
 
-      // Animation loop
-      const animate = () => {
-        requestAnimationFrame(animate);
+      // Animate point light to follow eagle
+      if (eagleRef.current && pointLight) {
+        pointLight.position.x = eagleRef.current.position.x;
+        pointLight.position.y = eagleRef.current.position.y + 2;
+        pointLight.position.z = eagleRef.current.position.z;
+      }
 
-        // Update animation mixer for GLB model animations
-        if (animationMixerRef.current) {
-          const delta = clockRef.current.getDelta();
-          animationMixerRef.current.update(delta);
-        }
-
-        // Update eagle position
-        animateEagle();
-
-        // Animate point light to follow eagle
-        if (eagleRef.current && pointLight) {
-          pointLight.position.x = eagleRef.current.position.x;
-          pointLight.position.y = eagleRef.current.position.y + 2;
-          pointLight.position.z = eagleRef.current.position.z;
-        }
-
+      if (renderer && scene && camera) {
         renderer.render(scene, camera);
-      };
+      }
+    };
 
+    // Load eagle model with timeout
+    const loadEagleModel = () => {
+      return new Promise((resolve) => {
+        const loader = new GLTFLoader();
+        const timeout = setTimeout(() => {
+          console.log('Model loading timeout, using fallback eagle');
+          resolve(false);
+        }, 3000); // Reduced timeout to 3 seconds
+
+        loader.load(
+          '/models/eagle.glb',
+          (gltf) => {
+            clearTimeout(timeout);
+            try {
+              const eagle = gltf.scene;
+              eagleRef.current = eagle;
+              
+              eagle.scale.set(1.5, 1.5, 1.5); // Increased scale
+              eagle.position.set(-6, 3, 0); // Start position for better visibility
+              
+              eagle.traverse((child) => {
+                if (child.isMesh) {
+                  child.castShadow = true;
+                  child.receiveShadow = true;
+                }
+              });
+
+              scene.add(eagle);
+
+              if (gltf.animations && gltf.animations.length > 0) {
+                const mixer = new THREE.AnimationMixer(eagle);
+                animationMixerRef.current = mixer;
+                
+                gltf.animations.forEach((clip) => {
+                  mixer.clipAction(clip).play();
+                });
+              }
+
+              console.log('Eagle model loaded successfully at position:', eagle.position);
+              resolve(true);
+            } catch (error) {
+              console.error('Error setting up eagle model:', error);
+              resolve(false);
+            }
+          },
+          (progress) => {
+            console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
+          },
+          (error) => {
+            clearTimeout(timeout);
+            console.error('Error loading eagle model:', error);
+            resolve(false);
+          }
+        );
+      });
+    };
+
+    // Main initialization
+    const initialize = async () => {
+      console.log('Starting eagle animation initialization...');
+      
+      if (!initializeScene()) {
+        console.error('Failed to initialize scene');
+        return;
+      }
+
+      // Try to load the model, fallback to geometric eagle if it fails
+      const modelLoaded = await loadEagleModel();
+      if (!modelLoaded) {
+        console.log('Model failed to load, creating fallback eagle...');
+        if (!createFallbackEagle()) {
+          console.error('Failed to create any eagle');
+          return;
+        }
+      }
+
+      // Start animation loop
+      console.log('Starting animation loop...');
       animate();
+      setIsInitialized(true);
+      console.log('Eagle animation initialized successfully');
+    };
 
-      // Handle window resize
-      const handleResize = () => {
+    // Handle window resize
+    const handleResize = () => {
+      if (camera && renderer) {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-      };
+      }
+    };
 
-      window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize);
 
-      // Cleanup
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        if (mountRef.current && renderer.domElement) {
-          mountRef.current.removeChild(renderer.domElement);
-        }
+    // Start initialization
+    initialize();
+
+    // Cleanup
+    return () => {
+      console.log('Cleaning up eagle animation...');
+      window.removeEventListener('resize', handleResize);
+      
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
+      
+      if (mountRef.current && renderer && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      
+      if (renderer) {
         renderer.dispose();
-      };
-    } catch (error) {
-      console.error('Error in Eagle Animation setup:', error);
-    }
-  }, []);
+      }
+      
+      if (animationMixerRef.current) {
+        animationMixerRef.current.stopAllAction();
+      }
+      
+      setIsInitialized(false);
+    };
+  }, [isInitialized]);
 
   return (
     <div 
@@ -244,7 +334,7 @@ const EagleAnimation = () => {
         width: '100%',
         height: '100%',
         pointerEvents: 'none',
-        zIndex: 15 // Increased z-index to be above other elements
+        zIndex: 15
       }}
     />
   );
