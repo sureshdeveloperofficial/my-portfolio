@@ -59,11 +59,27 @@ import {
   SiWordpress,
   SiShopify,
   SiStripe,
-  SiPaypal
+  SiPaypal,
+  SiDigitalocean,
+  SiRazorpay,
+  SiJsonwebtokens,
+  SiBitbucket,
+  SiPassport
 } from 'react-icons/si';
 import { DiDotnet } from "react-icons/di";
 import { DiMsqlServer } from "react-icons/di";
 import { SiDevexpress } from "react-icons/si";
+import { IoLogoBitbucket } from "react-icons/io";
+import { TbBrandFramerMotion } from "react-icons/tb";
+import { FaAws } from "react-icons/fa";
+import { FaMailBulk } from "react-icons/fa";
+import { SiAmazonec2 } from "react-icons/si";
+import { SiGoogleauthenticator } from "react-icons/si";
+import { SiThreedotjs } from "react-icons/si";
+import { SiIcons8 } from "react-icons/si";
+import { BiLogoKubernetes } from "react-icons/bi";
+import { SiXdadevelopers } from "react-icons/si";
+import { TbStack3Filled } from "react-icons/tb";
 
 import ClipPathTitle from '../components/ClipPathTitle';
 import { useGSAP } from '@gsap/react';
@@ -107,19 +123,37 @@ const Experience = () => {
       company: "Webnox Technologies PVT",
       period: "2025 (May) - Present",
       description: [
-        "Developing and maintaining web applications using React, Node.js, and cloud technologies",
-        "Mentoring junior developers and implementing best practices",
+        "Designing and developing scalable web applications using Next.js, React, Node.js, and Express, following modern development standards.",
+        "Leading performance optimization efforts and maintaining code quality using TypeScript, PostgreSQL, and cloud services.",
         "Collaborating with cross-functional teams to deliver high-quality software solutions",
-        "Optimizing application performance and ensuring code quality standards"
+        "Implementing authentication and security protocols with JWT, Passport, and Google Auth.",
+        "Integrating cloud services like AWS EC2, Docker, and Kubernetes to ensure smooth deployment and scalability.",
+        "Working with cross-functional teams to deliver efficient and high-quality software solutions.",
+        "Mentoring junior developers, promoting clean code, and encouraging best practices in version control and deployment."
       ],
-      icon: <Code className="w-6 h-6" />,
+      icon: <SiXdadevelopers className="w-6 h-6" />,
       skills: [
+        { name: "Next.js", icon: <SiNextdotjs className="w-4 h-4" />, color: "text-black-500" },
+        { name: "TypeScript", icon: <SiTypescript className="w-4 h-4" />, color: "text-blue-600" },
         { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
         { name: "Node.js", icon: <SiNodedotjs className="w-4 h-4" />, color: "text-green-500" },
-        { name: "TypeScript", icon: <SiTypescript className="w-4 h-4" />, color: "text-blue-600" },
+        { name: "Express", icon: <SiExpress className="w-4 h-4" />, color: "text-gray-600" },
+        { name: "Three.js", icon: <SiThreedotjs className="w-4 h-4" />, color: "text-black-500" },
+        { name: "Firebase", icon: <SiFirebase className="w-4 h-4" />, color: "text-orange-500" },
+        { name: "JWT", icon: <SiJsonwebtokens  className="w-4 h-4" />, color: "text-pink-500" },
+        { name: "Google Auth", icon: <SiGoogleauthenticator className="w-4 h-4" />, color: "text-red-500" },
+        { name: "Passport", icon: <SiPassport className="w-4 h-4" />, color: "text-green-500" },
+        { name: "Postgres", icon: <SiPostgresql className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "Github", icon: <SiGithub className="w-4 h-4" />, color: "text-black-500" },
+        { name: "Git", icon: <SiGit className="w-4 h-4" />, color: "text-orange-600" },
+        { name: "AWS", icon: <FaAws className="w-4 h-4" />, color: "text-black-500" },
+        { name: "Node Mailer", icon: <FaMailBulk className="w-4 h-4" />, color: "text-black-500" },
+        { name: "Tailwind", icon: <SiTailwindcss className="w-4 h-4" />, color: "text-cyan-500" },
+        { name: "AWS EC2", icon: <SiAmazonec2 className="w-4 h-4" />, color: "text-grey-500" },
         { name: "MongoDB", icon: <SiMongodb className="w-4 h-4" />, color: "text-green-600" },
-        { name: "AWS", icon: <Cloud className="w-4 h-4" />, color: "text-orange-500" },
-        { name: "Docker", icon: <SiDocker className="w-4 h-4" />, color: "text-blue-400" }
+        { name: "GSAP", icon: <SiIcons8 className="w-4 h-4" />, color: "text-black-500" },
+        { name: "Docker", icon: <SiDocker className="w-4 h-4" />, color: "text-blue-400" },
+        { name: "Kubernetes", icon: <BiLogoKubernetes className="w-4 h-4" />, color: "text-blue-500" }
       ],
       color: "bg-amber-600",
       side: "left",
@@ -131,19 +165,29 @@ const Experience = () => {
       company: "Webnox Technologies",
       period: "2024 (Sep) - 2025 (April)",
       description: [
-        "Developing and maintaining web applications using React, Node.js, and cloud technologies",
-        "Mentoring junior developers and implementing best practices",
-        "Designing and implementing RESTful APIs and database schemas",
-        "Integrating third-party services and payment gateways"
+        "Built and maintained full-stack web applications using React.js, Node.js, and Express.js, deploying on DigitalOcean and AWS.",
+        "Designed RESTful APIs, developed robust backend logic, and structured efficient MySQL databases.",
+        "Integrated third-party services including Firebase, Razorpay, and JWT for real-time features and secure transactions.",
+        "Used Tailwind CSS and Framer Motion for responsive and animated UI components.",
+        "Managed backend utilities such as NodeMailer for email automation and used Git/Bitbucket for source control.",
+        "Mentored junior developers, promoting clean code practices, version control workflows, and team collaboration."
       ],
-      icon: <Users className="w-6 h-6" />,
+      icon: <TbStack3Filled className="w-6 h-6" />,
       skills: [
         { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
         { name: "Node.js", icon: <SiNodedotjs className="w-4 h-4" />, color: "text-green-500" },
         { name: "Express", icon: <SiExpress className="w-4 h-4" />, color: "text-gray-600" },
         { name: "MySQL", icon: <SiMysql className="w-4 h-4" />, color: "text-blue-700" },
+        { name: "Digital Ocean", icon: <SiDigitalocean className="w-4 h-4" />, color: "text-cyan-500" },
+        { name: "Firebase", icon: <SiFirebase className="w-4 h-4" />, color: "text-orange-500" },
+        { name: "Razorpay", icon: <SiRazorpay className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "JWT", icon: <SiJsonwebtokens  className="w-4 h-4" />, color: "text-pink-500" },
+        { name: "Bitbucket", icon: <IoLogoBitbucket className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "Git", icon: <SiGit className="w-4 h-4" />, color: "text-orange-600" },
+        { name: "AWS", icon: <FaAws className="w-4 h-4" />, color: "text-black-500" },
+        { name: "Node Mailer", icon: <FaMailBulk className="w-4 h-4" />, color: "text-black-500" },
         { name: "Tailwind", icon: <SiTailwindcss className="w-4 h-4" />, color: "text-cyan-500" },
-        { name: "Git", icon: <SiGit className="w-4 h-4" />, color: "text-orange-600" }
+        { name: "Framer Motion", icon: <TbBrandFramerMotion className="w-4 h-4" />, color: "text-yellow-500" }
       ],
       color: "bg-orange-600",
       side: "right",
@@ -151,9 +195,38 @@ const Experience = () => {
     },
     {
       id: 3,
+      title: "Backend Developer",
+      company: "Webnox Technologies",
+      period: "2023 (March) - 2024 (August)",
+      description: [
+        "Developed and maintained full-stack web applications using React.js (frontend) and Node.js/Express.js (backend).",
+        "Designed and optimized MySQL databases for efficient data storage and retrieval.",
+        "Deployed and managed web applications on DigitalOcean via Cloudways, ensuring performance and uptime.",
+        "Integrated third-party services including Firebase, Razorpay, and JWT for authentication and payments.",
+        "Followed responsive design principles and ensured cross-browser compatibility.",
+        "Collaborated with senior developers through Git and Bitbucket, learning best practices in version control, clean code, and agile workflows."
+      ],
+      icon: <Shield className="w-6 h-6" />,
+      skills: [
+        { name: "Node.js", icon: <SiNodedotjs className="w-4 h-4" />, color: "text-green-500" },
+        { name: "Express", icon: <SiExpress className="w-4 h-4" />, color: "text-gray-600" },
+        { name: "MySQL", icon: <SiMysql className="w-4 h-4" />, color: "text-blue-700" },
+        { name: "Digital Ocean", icon: <SiDigitalocean className="w-4 h-4" />, color: "text-cyan-500" },
+        { name: "Firebase", icon: <SiFirebase className="w-4 h-4" />, color: "text-orange-500" },
+        { name: "Razorpay", icon: <SiRazorpay className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "JWT", icon: <SiJsonwebtokens  className="w-4 h-4" />, color: "text-pink-500" },
+        { name: "Bitbucket", icon: <IoLogoBitbucket className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "Git", icon: <SiGit className="w-4 h-4" />, color: "text-orange-600" }
+      ],
+      color: "bg-yellow-600",
+      side: "left",
+      pathPoint: 2
+    },
+    {
+      id: 3,
       title: "Junior Web Developer",
       company: "Webnox Technologies",
-      period: "2023 (Nov) - 2024 (Aug)",
+      period: "2023 (Nov) - 2024 (March)",
       description: [
         "Developed and maintained dynamic web applications using React.js for frontend and Node.js for backend APIs",
         "Designed and optimized MySQL databases for efficient data storage and retrieval",
@@ -162,16 +235,17 @@ const Experience = () => {
       ],
       icon: <Rocket className="w-6 h-6" />,
       skills: [
+        { name: "HTML", icon: <SiHtml5 className="w-4 h-4" />, color: "text-orange-500" },
+        { name: "CSS", icon: <SiCss3 className="w-4 h-4" />, color: "text-blue-500" },
         { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
-        { name: "JavaScript", icon: <SiJavascript className="w-4 h-4" />, color: "text-yellow-500" },
-        { name: "HTML5", icon: <SiHtml5 className="w-4 h-4" />, color: "text-orange-500" },
-        { name: "CSS3", icon: <SiCss3 className="w-4 h-4" />, color: "text-blue-500" },
-        { name: "Bootstrap", icon: <SiBootstrap className="w-4 h-4" />, color: "text-purple-500" },
-        { name: "GitHub", icon: <SiGithub className="w-4 h-4" />, color: "text-gray-800" }
+        { name: "Node JS", icon: <SiNodedotjs className="w-4 h-4" />, color: "text-green-500" },
+        { name: "Express", icon: <SiExpress className="w-4 h-4" />, color: "text-gray-600" },
+        { name: "MySQL", icon: <SiMysql className="w-4 h-4" />, color: "text-blue-700" },
+        { name: "Digital Ocean", icon: <SiDigitalocean className="w-4 h-4" />, color: "text-cyan-500" }       
       ],
       color: "bg-yellow-600",
-      side: "left",
-      pathPoint: 2
+      side: "right",
+      pathPoint: 3
     },
     {
       id: 4,
@@ -191,8 +265,8 @@ const Experience = () => {
         { name: "Dev Express", icon: <SiDevexpress className="w-4 h-4" />, color: "text-blue-600" }
       ],
       color: "bg-red-600",
-      side: "right",
-      pathPoint: 3
+      side: "left",
+      pathPoint: 4
     },
     {
       id: 5,
@@ -212,8 +286,8 @@ const Experience = () => {
         { name: "MySQL", icon: <SiMysql className="w-4 h-4" />, color: "text-blue-700" }
       ],
       color: "bg-orange-700",
-      side: "left",
-      pathPoint: 4
+      side: "right",
+      pathPoint: 5
     }
   ];
 
@@ -241,6 +315,12 @@ const Experience = () => {
           const progress = self.progress;
           const offset = pathLength - (pathLength * progress);
           gsap.set(path, { strokeDashoffset: offset });
+          
+          // Update progress indicator
+          const progressElement = document.querySelector('.timeline-progress');
+          if (progressElement) {
+            progressElement.textContent = `${Math.round(progress * 100)}%`;
+          }
         }
       }
     });
@@ -248,13 +328,10 @@ const Experience = () => {
     // Animate each timeline item
     const items = container.querySelectorAll('.timeline-item');
     items.forEach((item, index) => {
-      const isLeft = experiences[index].side === 'left';
-
       // Set initial states
       gsap.set(item, {
         opacity: 0,
         scale: 0.7,
-        x: isLeft ? -100 : 100,
         y: 50
       });
 
@@ -262,7 +339,6 @@ const Experience = () => {
       gsap.to(item, {
         opacity: 1,
         scale: 1,
-        x: 0,
         y: 0,
         duration: 0.8,
         ease: "back.out(1.7)",
@@ -315,14 +391,14 @@ const Experience = () => {
         });
       }
 
-      // Animate connecting line
-      const connector = item.querySelector('.connector-line');
-      if (connector) {
-        gsap.set(connector, {
+      // Animate connecting lines
+      const connectorLines = item.querySelectorAll('.absolute.top-1\\/2');
+      connectorLines.forEach((line, lineIndex) => {
+        gsap.set(line, {
           scaleX: 0,
-          transformOrigin: isLeft ? "right center" : "left center"
+          transformOrigin: lineIndex === 0 ? "right center" : "left center"
         });
-        gsap.to(connector, {
+        gsap.to(line, {
           scaleX: 1,
           duration: 0.5,
           delay: 0.5,
@@ -333,7 +409,7 @@ const Experience = () => {
             toggleActions: "play none none reverse"
           }
         });
-      }
+      });
     });
 
     // Cleanup
@@ -386,12 +462,17 @@ const Experience = () => {
         </div>
   
         {/* Timeline Container */}
-        <div ref={containerRef} className="relative py-20">
+        <div ref={containerRef} className="relative py-20 min-h-screen">
+          {/* Progress Indicator */}
+          <div className="absolute top-4 right-4 z-20 bg-amber-100/80 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-amber-800 font-medium">
+            <span className="timeline-progress">0%</span> Complete
+          </div>
+          
           {/* Snake Path SVG */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 1 }}
-            viewBox="0 0 400 1800"
+            viewBox="0 0 400 2000"
             preserveAspectRatio="xMidYMin meet"
           >
             <defs>
@@ -429,7 +510,9 @@ const Experience = () => {
                  Q150,1400 200,1450
                  Q250,1500 200,1550
                  Q150,1600 200,1650
-                 Q250,1700 200,1750"
+                 Q250,1700 200,1750
+                 Q150,1800 200,1850
+                 Q250,1900 200,1950"
               stroke="url(#pathGradient)"
               strokeWidth="6"
               fill="none"
