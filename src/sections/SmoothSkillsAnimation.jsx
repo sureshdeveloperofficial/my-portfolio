@@ -397,7 +397,7 @@ const SmoothSkillsAnimation = () => {
             <div className="mt-20 col-center">
               <ClipPathTitle
                 title={"MY INNOVATIVE"}
-                color={"#faeade"}
+                color={"#EACAA6"}
                 bg={"#523122"}
                 className={"first-title"}
                 borderColor={"#222123"}
