@@ -106,7 +106,12 @@ const Experience = () => {
       title: "Associate Software Developer",
       company: "Webnox Technologies PVT",
       period: "2025 (May) - Present",
-      description: "Developing and maintaining web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.",
+      description: [
+        "Developing and maintaining web applications using React, Node.js, and cloud technologies",
+        "Mentoring junior developers and implementing best practices",
+        "Collaborating with cross-functional teams to deliver high-quality software solutions",
+        "Optimizing application performance and ensuring code quality standards"
+      ],
       icon: <Code className="w-6 h-6" />,
       skills: [
         { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
@@ -125,7 +130,12 @@ const Experience = () => {
       title: "Full Stack Developer",
       company: "Webnox Technologies",
       period: "2024 (Sep) - 2025 (April)",
-      description: "Developing and maintaining web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.",
+      description: [
+        "Developing and maintaining web applications using React, Node.js, and cloud technologies",
+        "Mentoring junior developers and implementing best practices",
+        "Designing and implementing RESTful APIs and database schemas",
+        "Integrating third-party services and payment gateways"
+      ],
       icon: <Users className="w-6 h-6" />,
       skills: [
         { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
@@ -144,7 +154,12 @@ const Experience = () => {
       title: "Junior Web Developer",
       company: "Webnox Technologies",
       period: "2023 (Nov) - 2024 (Aug)",
-      description: "Developed and maintained dynamic web applications using React.js for frontend and Node.js for backend APIs.",
+      description: [
+        "Developed and maintained dynamic web applications using React.js for frontend and Node.js for backend APIs",
+        "Designed and optimized MySQL databases for efficient data storage and retrieval",
+        "Implemented responsive design principles and cross-browser compatibility",
+        "Collaborated with senior developers to learn best practices and coding standards"
+      ],
       icon: <Rocket className="w-6 h-6" />,
       skills: [
         { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
@@ -163,7 +178,12 @@ const Experience = () => {
       title: "Software Developer Intern",
       company: "Sivasakthi Software Services Private Limited",
       period: "2023 (August) - 2023 (Oct)",
-      description: "Experienced ASP.NET and VB.NET developer skilled in building and maintaining web applications using Microsoft technologies. Proficient in SQL Server and legacy system modernization.",
+      description: [
+        "Experienced ASP.NET and VB.NET developer skilled in building and maintaining web applications using Microsoft technologies",
+        "Proficient in SQL Server and legacy system modernization",
+        "Developed client websites and learned industry best practices",
+        "Gained experience in database management and system integration"
+      ],
       icon: <Building className="w-6 h-6" />,
       skills: [
         { name: "Dotnet", icon: <DiDotnet className="w-4 h-4" />, color: "text-blue-500" },
@@ -179,12 +199,17 @@ const Experience = () => {
       title: "Bachelor of Computer Science",
       company: "Sri Jayendra Saraswathy Maha Vidhya Colleg Of Arts & Science",
       period: "2020 (May) - 2023 (Jun)",
-      description: "Completed Bachelor's degree with focus on software engineering, data structures, and algorithms. Participated in coding competitions and hackathons.",
+      description: [
+        "Completed Bachelor's degree with focus on software engineering, data structures, and algorithms",
+        "Participated in coding competitions and hackathons",
+        "Studied database management systems and software development methodologies",
+        "Gained foundational knowledge in programming languages and computer science principles"
+      ],
       icon: <GraduationCap className="w-6 h-6" />,
       skills: [
         { name: "Programming", icon: <Code className="w-4 h-4" />, color: "text-red-500" },
         { name: "Algorithms", icon: <Cpu className="w-4 h-4" />, color: "text-blue-700" },
-        { name: "MySQL", icon: <SiMysql className="w-4 h-4" />, color: "text-blue-700" },
+        { name: "MySQL", icon: <SiMysql className="w-4 h-4" />, color: "text-blue-700" }
       ],
       color: "bg-orange-700",
       side: "left",
@@ -361,12 +386,12 @@ const Experience = () => {
         </div>
   
         {/* Timeline Container */}
-        <div ref={containerRef} className="relative min-h-[200vh]">
+        <div ref={containerRef} className="relative py-20">
           {/* Snake Path SVG */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 1 }}
-            viewBox="0 0 400 1400"
+            viewBox="0 0 400 1800"
             preserveAspectRatio="xMidYMin meet"
           >
             <defs>
@@ -400,7 +425,11 @@ const Experience = () => {
                  Q150,1000 200,1050 
                  Q250,1100 200,1150 
                  Q150,1200 200,1250 
-                 Q250,1300 200,1350"
+                 Q250,1300 200,1350
+                 Q150,1400 200,1450
+                 Q250,1500 200,1550
+                 Q150,1600 200,1650
+                 Q250,1700 200,1750"
               stroke="url(#pathGradient)"
               strokeWidth="6"
               fill="none"
@@ -409,107 +438,173 @@ const Experience = () => {
             />
           </svg>
 
-          {/* Timeline Items */}
-          <div ref={timelineRef} className="relative" style={{ zIndex: 2 }}>
-            {experiences.map((exp, index) => (
-              <div
-                key={exp.id}
-                className="timeline-item absolute w-full"
-                style={{
-                  top: `${120 + index * 200}px`,
-                  left: 0
-                }}
-              >
-                {/* Timeline Pin */}
+          {/* Timeline Items Container */}
+          <div ref={timelineRef} className="relative z-10 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 gap-16">
+              {experiences.map((exp, index) => (
                 <div
-                  className={`timeline-pin absolute left-1/2 transform -translate-x-1/2 w-20 h-20 ${exp.color} rounded-full flex items-center justify-center text-white shadow-2xl z-20 border-4 border-amber-100`}
+                  key={exp.id}
+                  className="timeline-item relative"
                 >
-                  {exp.icon}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent"></div>
-                </div>
+                  {/* Timeline Row */}
+                  <div className="flex items-center justify-center relative">
+                    {/* Left Content */}
+                    {exp.side === 'left' && (
+                      <div className="flex-1 max-w-md mr-8">
+                        <div className="timeline-card bg-amber-50/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-amber-200/50">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <h3 className="text-xl font-bold text-amber-900 mb-2">
+                                {exp.title}
+                              </h3>
+                              <p className="text-orange-700 font-semibold mb-2">
+                                {exp.company}
+                              </p>
+                              <p className="text-sm text-amber-700 mb-3">
+                                {exp.period}
+                              </p>
+                            </div>
+                            <div className={`${exp.color} w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg`}>
+                              {exp.id}
+                            </div>
+                          </div>
 
-                {/* Connecting Line */}
-                <div
-                  className={`connector-line absolute top-10 h-1 bg-gradient-to-r from-amber-400 to-orange-500 ${
-                    exp.side === 'left' ? 'right-1/2 mr-10' : 'left-1/2 ml-10'
-                  } w-16 z-10`}
-                ></div>
+                          <p className="text-amber-800 text-sm leading-relaxed mb-4">
+                            {exp.description.map((desc, descIndex) => (
+                              <div key={descIndex} className="flex items-start mb-2">
+                                <span className="text-amber-600 mr-2 mt-1">•</span>
+                                <span>{desc}</span>
+                              </div>
+                            ))}
+                          </p>
 
-                {/* Content Card */}
-                <div
-                  className={`timeline-card absolute top-0 w-80 bg-amber-50/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-amber-200/50 ${
-                    exp.side === 'left' ? 'right-1/2 mr-24' : 'left-1/2 ml-24'
-                  }`}
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-amber-900 mb-2">
-                        {exp.title}
-                      </h3>
-                      <p className="text-orange-700 font-semibold mb-2">
-                        {exp.company}
-                      </p>
-                      <p className="text-sm text-amber-700 mb-3">
-                        {exp.period}
-                      </p>
-                    </div>
-                    <div className={`${exp.color} w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg`}>
-                      {exp.id}
-                    </div>
-                  </div>
+                          {/* Technology Icons */}
+                          <div className="mb-4">
+                            <p className="text-xs font-semibold text-amber-700 mb-2">Technologies:</p>
+                            <div className="flex flex-wrap gap-2">
+                              {exp.skills.map((skill, skillIndex) => (
+                                <div
+                                  key={skillIndex}
+                                  className={`flex items-center gap-1 px-2 py-1 rounded-full bg-amber-100/50 border border-amber-200/50 ${skill.color}`}
+                                >
+                                  {skill.icon}
+                                  <span className="text-xs font-medium">{skill.name}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
 
-                  <p className="text-amber-800 text-sm leading-relaxed mb-4">
-                    {exp.description}
-                  </p>
+                          {/* Progress bar */}
+                          <div className="w-full bg-amber-200 rounded-full h-2">
+                            <div
+                              className={`h-2 rounded-full bg-gradient-to-r ${exp.color.replace('bg-', 'from-')} to-amber-300`}
+                              style={{ width: `${(experiences.length - index) * 15}%` }}
+                            ></div>
+                          </div>
 
-                  {/* Technology Icons */}
-                  <div className="mb-4">
-                    <p className="text-xs font-semibold text-amber-700 mb-2">Technologies:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {exp.skills.map((skill, skillIndex) => (
-                        <div
-                          key={skillIndex}
-                          className={`flex items-center gap-1 px-2 py-1 rounded-full bg-amber-100/50 border border-amber-200/50 ${skill.color}`}
-                        >
-                          {skill.icon}
-                          <span className="text-xs font-medium">{skill.name}</span>
+                          {/* Floating orbs */}
+                          <div className="absolute -top-2 -right-2 w-4 h-4 bg-orange-400 rounded-full animate-pulse opacity-70"></div>
+                          <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-amber-400 rounded-full animate-bounce opacity-60"></div>
                         </div>
-                      ))}
+                      </div>
+                    )}
+
+                    {/* Center Timeline Pin */}
+                    <div className="flex-shrink-0 relative">
+                      <div
+                        className={`timeline-pin w-20 h-20 ${exp.color} rounded-full flex items-center justify-center text-white shadow-2xl z-20 border-4 border-amber-100`}
+                      >
+                        {exp.icon}
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent"></div>
+                      </div>
+                      
+                      {/* Connecting Lines */}
+                      <div className="absolute top-1/2 transform -translate-y-1/2 w-8 h-1 bg-gradient-to-r from-amber-400 to-orange-500 -left-8"></div>
+                      <div className="absolute top-1/2 transform -translate-y-1/2 w-8 h-1 bg-gradient-to-r from-orange-500 to-amber-400 -right-8"></div>
                     </div>
+
+                    {/* Right Content */}
+                    {exp.side === 'right' && (
+                      <div className="flex-1 max-w-md ml-8">
+                        <div className="timeline-card bg-amber-50/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-amber-200/50">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <h3 className="text-xl font-bold text-amber-900 mb-2">
+                                {exp.title}
+                              </h3>
+                              <p className="text-orange-700 font-semibold mb-2">
+                                {exp.company}
+                              </p>
+                              <p className="text-sm text-amber-700 mb-3">
+                                {exp.period}
+                              </p>
+                            </div>
+                            <div className={`${exp.color} w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg`}>
+                              {exp.id}
+                            </div>
+                          </div>
+
+                          <p className="text-amber-800 text-sm leading-relaxed mb-4">
+                            {exp.description.map((desc, descIndex) => (
+                              <div key={descIndex} className="flex items-start mb-2">
+                                <span className="text-amber-600 mr-2 mt-1">•</span>
+                                <span>{desc}</span>
+                              </div>
+                            ))}
+                          </p>
+
+                          {/* Technology Icons */}
+                          <div className="mb-4">
+                            <p className="text-xs font-semibold text-amber-700 mb-2">Technologies:</p>
+                            <div className="flex flex-wrap gap-2">
+                              {exp.skills.map((skill, skillIndex) => (
+                                <div
+                                  key={skillIndex}
+                                  className={`flex items-center gap-1 px-2 py-1 rounded-full bg-amber-100/50 border border-amber-200/50 ${skill.color}`}
+                                >
+                                  {skill.icon}
+                                  <span className="text-xs font-medium">{skill.name}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Progress bar */}
+                          <div className="w-full bg-amber-200 rounded-full h-2">
+                            <div
+                              className={`h-2 rounded-full bg-gradient-to-r ${exp.color.replace('bg-', 'from-')} to-amber-300`}
+                              style={{ width: `${(experiences.length - index) * 15}%` }}
+                            ></div>
+                          </div>
+
+                          {/* Floating orbs */}
+                          <div className="absolute -top-2 -right-2 w-4 h-4 bg-orange-400 rounded-full animate-pulse opacity-70"></div>
+                          <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-amber-400 rounded-full animate-bounce opacity-60"></div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Progress bar */}
-                  <div className="w-full bg-amber-200 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full bg-gradient-to-r ${exp.color.replace('bg-', 'from-')} to-amber-300`}
-                      style={{ width: `${(experiences.length - index) * 15}%` }}
-                    ></div>
-                  </div>
-
-                  {/* Floating orbs */}
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-orange-400 rounded-full animate-pulse opacity-70"></div>
-                  <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-amber-400 rounded-full animate-bounce opacity-60"></div>
+                  {/* Floating particles */}
+                  <div
+                    className="absolute w-2 h-2 bg-orange-400 rounded-full animate-float opacity-70"
+                    style={{
+                      left: exp.side === 'left' ? '30%' : '70%',
+                      top: '20px',
+                      animationDelay: `${index * 0.2}s`
+                    }}
+                  ></div>
+                  <div
+                    className="absolute w-1 h-1 bg-amber-400 rounded-full animate-float opacity-80"
+                    style={{
+                      left: exp.side === 'left' ? '25%' : '75%',
+                      top: '40px',
+                      animationDelay: `${index * 0.3}s`
+                    }}
+                  ></div>
                 </div>
-
-                {/* Floating particles */}
-                <div
-                  className="absolute w-2 h-2 bg-orange-400 rounded-full animate-float opacity-70"
-                  style={{
-                    left: exp.side === 'left' ? '30%' : '70%',
-                    top: '20px',
-                    animationDelay: `${index * 0.2}s`
-                  }}
-                ></div>
-                <div
-                  className="absolute w-1 h-1 bg-amber-400 rounded-full animate-float opacity-80"
-                  style={{
-                    left: exp.side === 'left' ? '25%' : '75%',
-                    top: '40px',
-                    animationDelay: `${index * 0.3}s`
-                  }}
-                ></div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -539,6 +634,41 @@ const Experience = () => {
         }
         .animate-float {
           animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Responsive adjustments for container-based layout */
+        @media (max-width: 768px) {
+          .timeline-item .flex {
+            flex-direction: column !important;
+            gap: 2rem !important;
+          }
+          
+          .timeline-item .flex > div {
+            max-width: 100% !important;
+            margin: 0 !important;
+          }
+          
+          .timeline-pin {
+            order: 1 !important;
+            margin: 1rem 0 !important;
+          }
+          
+          .timeline-card {
+            order: 2 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .timeline-card {
+            padding: 1rem !important;
+          }
+          
+          .timeline-pin {
+            width: 16px !important;
+            height: 16px !important;
+          }
         }
       `}</style>
     </div>
