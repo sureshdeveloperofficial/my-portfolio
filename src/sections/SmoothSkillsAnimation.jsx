@@ -24,11 +24,17 @@ import {
   SiTypescript,
   SiRazorpay,
   SiPaypal,
-  SiPassport
+  SiPassport,
+  SiJsonwebtokens,
+  SiDocker,
+  SiKubernetes,
+  SiGit,
+  SiDigitalocean
 } from 'react-icons/si';
 import { IoLogoBitbucket } from 'react-icons/io';
 import { FcGoogle } from "react-icons/fc";
 import { FaCcPaypal } from "react-icons/fa6";
+import { FaAws } from "react-icons/fa";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -157,6 +163,36 @@ const SmoothSkillsAnimation = () => {
       name: "Passport.js",
       icon: <SiPassport className="w-12 h-12" />,
       color: '#35DD89'
+    },
+    {
+      name: "JWT",
+      icon: <SiJsonwebtokens  className="w-12 h-12" />,
+      color: '#CF38F7'
+    },
+    {
+      name: "Git",
+      icon: <SiGit className="w-12 h-12" />,
+      color: '#F05032'
+    },
+    {
+      name: "Docker",
+      icon: <SiDocker className="w-12 h-12" />,
+      color: '#1C60E6'
+    },
+    {
+      name: "Kubernetes",
+      icon: <SiKubernetes className="w-12 h-12" />,
+      color: '#3A5DE1'
+    },
+    {
+      name: "Digital Ocean",
+      icon: <SiDigitalocean className="w-12 h-12" />,
+      color: '#0066F7'
+    },
+    {
+      name: "AWS",
+      icon: <FaAws className="w-12 h-12" />,
+      color: '#000'
     }
   ];
 
@@ -396,14 +432,14 @@ const SmoothSkillsAnimation = () => {
           <section className="skill-section">
             <div className="mt-20 col-center">
               <ClipPathTitle
-                title={"MY INNOVATIVE"}
+                title={"MY-INNOVATIVE"}
                 color={"#EACAA6"}
                 bg={"#523122"}
                 className={"first-title"}
                 borderColor={"#222123"}
               />
               <ClipPathTitle
-                title={"CREATIVE SKILLS"}
+                title={"CREATIVE + SKILLS"}
                 color={"#222123"}
                 bg={"#faeade"}
                 className={"second-title"}

@@ -80,6 +80,7 @@ import { SiIcons8 } from "react-icons/si";
 import { BiLogoKubernetes } from "react-icons/bi";
 import { SiXdadevelopers } from "react-icons/si";
 import { TbStack3Filled } from "react-icons/tb";
+import { FcGoogle } from "react-icons/fc";
 
 import ClipPathTitle from '../components/ClipPathTitle';
 import { useGSAP } from '@gsap/react';
@@ -141,7 +142,7 @@ const Experience = () => {
         { name: "Three.js", icon: <SiThreedotjs className="w-4 h-4" />, color: "text-black-500" },
         { name: "Firebase", icon: <SiFirebase className="w-4 h-4" />, color: "text-orange-500" },
         { name: "JWT", icon: <SiJsonwebtokens  className="w-4 h-4" />, color: "text-pink-500" },
-        { name: "Google Auth", icon: <SiGoogleauthenticator className="w-4 h-4" />, color: "text-red-500" },
+        { name: "Google Auth", icon: <FcGoogle className="w-4 h-4" />, color: "text-red-500" },
         { name: "Passport", icon: <SiPassport className="w-4 h-4" />, color: "text-green-500" },
         { name: "Postgres", icon: <SiPostgresql className="w-4 h-4" />, color: "text-blue-500" },
         { name: "Github", icon: <SiGithub className="w-4 h-4" />, color: "text-black-500" },
