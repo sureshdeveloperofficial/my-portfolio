@@ -11,8 +11,60 @@ import {
   Target,
   TrendingUp,
   Building,
-  Coffee
+  Coffee,
+  Icon,
+  // Tech icons
+  Database,
+  Globe,
+  Smartphone,
+  Cloud,
+  Shield,
+  Zap,
+  Cpu,
+  Layers
 } from 'lucide-react';
+// Import real tech icons from React Icons
+import { 
+  SiReact, 
+  SiNodedotjs, 
+  SiJavascript, 
+  SiTypescript, 
+  SiMongodb, 
+  SiMysql, 
+  SiPostgresql,
+  SiDocker,
+  SiGit,
+  SiGithub,
+  SiTailwindcss,
+  SiBootstrap,
+  SiHtml5,
+  SiCss3,
+  SiPython,
+  SiExpress,
+  SiNextdotjs,
+  SiVuedotjs,
+  SiAngular,
+  SiRedux,
+  SiGraphql,
+  SiFirebase,
+  SiVercel,
+  SiNetlify,
+  SiFigma,
+  SiAdobexd,
+  SiPostman,
+  SiJira,
+  SiTrello,
+  SiSlack,
+  SiDiscord,
+  SiWordpress,
+  SiShopify,
+  SiStripe,
+  SiPaypal
+} from 'react-icons/si';
+import { DiDotnet } from "react-icons/di";
+import { DiMsqlServer } from "react-icons/di";
+import { SiDevexpress } from "react-icons/si";
+
 import ClipPathTitle from '../components/ClipPathTitle';
 import { useGSAP } from '@gsap/react';
 import { SplitText } from 'gsap/all';
@@ -47,85 +99,96 @@ const Experience = () => {
     });
   });
 
-
   // Experience data with positions for snake-like flow
   const experiences = [
     {
       id: 1,
-      title: "Senior Full Stack Developer",
-      company: "Tech Innovation Corp",
-      period: "2023 - Present",
-      description: "Leading development of scalable web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.",
+      title: "Associate Software Developer",
+      company: "Webnox Technologies PVT",
+      period: "2025 (May) - Present",
+      description: "Developing and maintaining web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.",
       icon: <Code className="w-6 h-6" />,
+      skills: [
+        { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "Node.js", icon: <SiNodedotjs className="w-4 h-4" />, color: "text-green-500" },
+        { name: "TypeScript", icon: <SiTypescript className="w-4 h-4" />, color: "text-blue-600" },
+        { name: "MongoDB", icon: <SiMongodb className="w-4 h-4" />, color: "text-green-600" },
+        { name: "AWS", icon: <Cloud className="w-4 h-4" />, color: "text-orange-500" },
+        { name: "Docker", icon: <SiDocker className="w-4 h-4" />, color: "text-blue-400" }
+      ],
       color: "bg-amber-600",
       side: "left",
       pathPoint: 0
     },
     {
       id: 2,
-      title: "Frontend Team Lead",
-      company: "Digital Solutions Ltd",
-      period: "2021 - 2023",
-      description: "Led a team of 5 developers in creating responsive user interfaces. Implemented design systems and improved development workflows by 40%.",
+      title: "Full Stack Developer",
+      company: "Webnox Technologies",
+      period: "2024 (Sep) - 2025 (April)",
+      description: "Developing and maintaining web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.",
       icon: <Users className="w-6 h-6" />,
+      skills: [
+        { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "Node.js", icon: <SiNodedotjs className="w-4 h-4" />, color: "text-green-500" },
+        { name: "Express", icon: <SiExpress className="w-4 h-4" />, color: "text-gray-600" },
+        { name: "MySQL", icon: <SiMysql className="w-4 h-4" />, color: "text-blue-700" },
+        { name: "Tailwind", icon: <SiTailwindcss className="w-4 h-4" />, color: "text-cyan-500" },
+        { name: "Git", icon: <SiGit className="w-4 h-4" />, color: "text-orange-600" }
+      ],
       color: "bg-orange-600",
       side: "right",
       pathPoint: 1
     },
     {
       id: 3,
-      title: "Full Stack Developer",
-      company: "StartupXYZ",
-      period: "2020 - 2021",
-      description: "Built and maintained web applications from scratch. Collaborated with cross-functional teams using agile methodologies and modern tech stack.",
+      title: "Junior Web Developer",
+      company: "Webnox Technologies",
+      period: "2023 (Nov) - 2024 (Aug)",
+      description: "Developed and maintained dynamic web applications using React.js for frontend and Node.js for backend APIs.",
       icon: <Rocket className="w-6 h-6" />,
+      skills: [
+        { name: "React", icon: <SiReact className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "JavaScript", icon: <SiJavascript className="w-4 h-4" />, color: "text-yellow-500" },
+        { name: "HTML5", icon: <SiHtml5 className="w-4 h-4" />, color: "text-orange-500" },
+        { name: "CSS3", icon: <SiCss3 className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "Bootstrap", icon: <SiBootstrap className="w-4 h-4" />, color: "text-purple-500" },
+        { name: "GitHub", icon: <SiGithub className="w-4 h-4" />, color: "text-gray-800" }
+      ],
       color: "bg-yellow-600",
       side: "left",
       pathPoint: 2
     },
     {
       id: 4,
-      title: "Junior Developer",
-      company: "WebCorp Agency",
-      period: "2019 - 2020",
-      description: "Developed client websites and learned industry best practices. Gained experience in React, Node.js, and database management.",
+      title: "Software Developer Intern",
+      company: "Sivasakthi Software Services Private Limited",
+      period: "2023 (August) - 2023 (Oct)",
+      description: "Experienced ASP.NET and VB.NET developer skilled in building and maintaining web applications using Microsoft technologies. Proficient in SQL Server and legacy system modernization.",
       icon: <Building className="w-6 h-6" />,
+      skills: [
+        { name: "Dotnet", icon: <DiDotnet className="w-4 h-4" />, color: "text-blue-500" },
+        { name: "Microsoft Sql Server", icon: <DiMsqlServer className="w-4 h-4" />, color: "text-pink-500" },
+        { name: "Dev Express", icon: <SiDevexpress className="w-4 h-4" />, color: "text-blue-600" }
+      ],
       color: "bg-red-600",
       side: "right",
       pathPoint: 3
     },
     {
       id: 5,
-      title: "Frontend Developer Intern",
-      company: "Creative Studio",
-      period: "2018 - 2019",
-      description: "Created interactive web components and assisted in UI/UX design implementation. Learned responsive design and modern CSS frameworks.",
-      icon: <Coffee className="w-6 h-6" />,
-      color: "bg-amber-700",
-      side: "left",
-      pathPoint: 4
-    },
-    {
-      id: 6,
-      title: "Computer Science Graduate",
-      company: "University Name",
-      period: "2016 - 2020",
+      title: "Bachelor of Computer Science",
+      company: "Sri Jayendra Saraswathy Maha Vidhya Colleg Of Arts & Science",
+      period: "2020 (May) - 2023 (Jun)",
       description: "Completed Bachelor's degree with focus on software engineering, data structures, and algorithms. Participated in coding competitions and hackathons.",
       icon: <GraduationCap className="w-6 h-6" />,
+      skills: [
+        { name: "Programming", icon: <Code className="w-4 h-4" />, color: "text-red-500" },
+        { name: "Algorithms", icon: <Cpu className="w-4 h-4" />, color: "text-blue-700" },
+        { name: "MySQL", icon: <SiMysql className="w-4 h-4" />, color: "text-blue-700" },
+      ],
       color: "bg-orange-700",
-      side: "right",
-      pathPoint: 5
-    },
-    {
-      id: 7,
-      title: "Freelance Developer",
-      company: "Various Clients",
-      period: "2017 - Present",
-      description: "Developed custom websites and web applications for small businesses. Specialized in e-commerce solutions and portfolio websites.",
-      icon: <Briefcase className="w-6 h-6" />,
-      color: "bg-yellow-700",
       side: "left",
-      pathPoint: 6
+      pathPoint: 4
     }
   ];
 
@@ -277,10 +340,9 @@ const Experience = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 py-20 px-4 overflow-hidden">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <section className="experience-section">
-
           <div className="mt-20 col-center">
             <ClipPathTitle
               title={"MY JOURNEY"}
@@ -289,15 +351,14 @@ const Experience = () => {
               className={"fourth-title"}
               borderColor={"#222123"}
             />
-
           </div>
-
         </section>
+        
         <div ref={paragraphRef} className="text-center mb-16">
-            <p>
-              Follow the path of my professional evolution through technology and innovation
-            </p>
-          </div>
+          <p className="text-lg text-amber-800 max-w-2xl mx-auto">
+            Follow the path of my professional evolution through technology and innovation
+          </p>
+        </div>
   
         {/* Timeline Container */}
         <div ref={containerRef} className="relative min-h-[200vh]">
@@ -355,7 +416,7 @@ const Experience = () => {
                 key={exp.id}
                 className="timeline-item absolute w-full"
                 style={{
-                  top: `${100 + index * 180}px`,
+                  top: `${120 + index * 200}px`,
                   left: 0
                 }}
               >
@@ -369,16 +430,16 @@ const Experience = () => {
 
                 {/* Connecting Line */}
                 <div
-                  className={`connector-line absolute top-10 h-1 bg-gradient-to-r from-amber-400 to-orange-500 ${exp.side === 'left' ? 'right-1/2 mr-10' : 'left-1/2 ml-10'
-                    } w-16 z-10`}
+                  className={`connector-line absolute top-10 h-1 bg-gradient-to-r from-amber-400 to-orange-500 ${
+                    exp.side === 'left' ? 'right-1/2 mr-10' : 'left-1/2 ml-10'
+                  } w-16 z-10`}
                 ></div>
 
                 {/* Content Card */}
                 <div
-                  className={`timeline-card absolute top-0 w-80 bg-amber-50/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-amber-200/50 ${exp.side === 'left'
-                      ? 'right-1/2 mr-24'
-                      : 'left-1/2 ml-24'
-                    }`}
+                  className={`timeline-card absolute top-0 w-80 bg-amber-50/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-amber-200/50 ${
+                    exp.side === 'left' ? 'right-1/2 mr-24' : 'left-1/2 ml-24'
+                  }`}
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -400,6 +461,22 @@ const Experience = () => {
                   <p className="text-amber-800 text-sm leading-relaxed mb-4">
                     {exp.description}
                   </p>
+
+                  {/* Technology Icons */}
+                  <div className="mb-4">
+                    <p className="text-xs font-semibold text-amber-700 mb-2">Technologies:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {exp.skills.map((skill, skillIndex) => (
+                        <div
+                          key={skillIndex}
+                          className={`flex items-center gap-1 px-2 py-1 rounded-full bg-amber-100/50 border border-amber-200/50 ${skill.color}`}
+                        >
+                          {skill.icon}
+                          <span className="text-xs font-medium">{skill.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
                   {/* Progress bar */}
                   <div className="w-full bg-amber-200 rounded-full h-2">
@@ -439,9 +516,9 @@ const Experience = () => {
         {/* Achievement Stats */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { number: "7+", label: "Years Experience", color: "text-amber-700" },
-            { number: "100+", label: "Projects", color: "text-orange-700" },
-            { number: "25+", label: "Technologies", color: "text-red-700" },
+            { number: "3+", label: "Years Experience", color: "text-amber-700" },
+            { number: "50+", label: "Projects", color: "text-orange-700" },
+            { number: "15+", label: "Technologies", color: "text-red-700" },
             { number: "95%", label: "Client Satisfaction", color: "text-yellow-700" }
           ].map((stat, index) => (
             <div key={index} className="text-center">
