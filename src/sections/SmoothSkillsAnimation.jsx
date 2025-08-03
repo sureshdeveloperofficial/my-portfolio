@@ -41,10 +41,12 @@ const ClipPathTitle = ({ title, color, bg, className, borderColor }) => (
       color: color,
       backgroundColor: bg,
       WebkitTextStroke: `2px ${borderColor}`,
-      clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-      opacity: 0,
       padding: '0.2em',
-      margin: '0.1em 0'
+      margin: '0.1em 0',
+      position: 'relative',
+      zIndex: 10,
+      textShadow: `0 0 30px ${color}40`,
+      transition: 'all 0.3s ease'
     }}
   >
     {title}
@@ -269,30 +271,122 @@ const SmoothSkillsAnimation = () => {
 
   // Title Animation
   useGSAP(() => {
+    // Enhanced title reveal animation with scroll trigger
     const revealTl = gsap.timeline({
-      delay: 1,
       scrollTrigger: {
         trigger: ".skill-section",
-        start: "top 60%",
-        end: "top top",
-        scrub: 1.5,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1,
+        toggleActions: "play none none reverse"
       },
     });
 
-    revealTl
-      .to(".skill-section .first-title", {
-        duration: 1,
-        opacity: 1,
-        clipPath: "polygon(0% 0%, 100% 0, 100% 100%, 0% 100%)",
-        ease: "circ.out",
-      })
-      .to(".skill-section .second-title", {
-        duration: 1,
-        opacity: 1,
-        clipPath: "polygon(0% 0%, 100% 0, 100% 100%, 0% 100%)",
-        ease: "circ.out",
-      })
-  });
+    // Split text animation for more dynamic effect
+    const firstTitle = document.querySelector(".skill-section .first-title");
+    const secondTitle = document.querySelector(".skill-section .second-title");
+
+    if (firstTitle && secondTitle) {
+      // Create text split effect
+      const firstText = firstTitle.textContent;
+      const secondText = secondTitle.textContent;
+
+      // Clear and recreate with spans for character animation
+      firstTitle.innerHTML = firstText.split('').map(char => 
+        `<span class="char" style="display: inline-block; opacity: 0; transform: translateY(50px) rotateX(90deg);">${char}</span>`
+      ).join('');
+
+      secondTitle.innerHTML = secondText.split('').map(char => 
+        `<span class="char" style="display: inline-block; opacity: 0; transform: translateY(50px) rotateX(90deg);">${char}</span>`
+      ).join('');
+
+      // Animate first title characters
+      revealTl
+        .to(".skill-section .first-title .char", {
+          duration: 0.8,
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          ease: "back.out(1.7)",
+          stagger: 0.05,
+        })
+        .to(".skill-section .second-title .char", {
+          duration: 0.8,
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          ease: "back.out(1.7)",
+          stagger: 0.05,
+        }, "-=0.4");
+
+      // Add parallax effect to titles
+      gsap.to(".skill-section .first-title", {
+        yPercent: -30,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".skill-section",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      });
+
+      gsap.to(".skill-section .second-title", {
+        yPercent: -20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".skill-section",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      });
+
+      // Add scale and glow effect on scroll
+      gsap.to(".skill-section .first-title", {
+        scale: 1.1,
+        filter: "brightness(1.2) drop-shadow(0 0 20px rgba(200, 142, 100, 0.5))",
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".skill-section",
+          start: "center center",
+          end: "bottom center",
+          scrub: 1
+        }
+      });
+
+      gsap.to(".skill-section .second-title", {
+        scale: 1.05,
+        filter: "brightness(1.1) drop-shadow(0 0 15px rgba(34, 33, 35, 0.3))",
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".skill-section",
+          start: "center center",
+          end: "bottom center",
+          scrub: 1
+        }
+      });
+    }
+
+    // Add floating animation to titles
+    gsap.to(".skill-section .first-title", {
+      y: -10,
+      duration: 3,
+      ease: "power2.inOut",
+      repeat: -1,
+      yoyo: true
+    });
+
+    gsap.to(".skill-section .second-title", {
+      y: -8,
+      duration: 3.5,
+      ease: "power2.inOut",
+      repeat: -1,
+      yoyo: true,
+      delay: 0.5
+    });
+
+  }, { scope: skillsRef });
 
   return (
     <div ref={skillsRef} className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 py-20 px-4">
@@ -304,7 +398,7 @@ const SmoothSkillsAnimation = () => {
               <ClipPathTitle
                 title={"MY INNOVATIVE"}
                 color={"#faeade"}
-                bg={"#c88e64"}
+                bg={"#523122"}
                 className={"first-title"}
                 borderColor={"#222123"}
               />
@@ -387,6 +481,44 @@ const SmoothSkillsAnimation = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
+        }
+
+        /* Character animation styles */
+        .char {
+          transform-origin: center;
+          will-change: transform, opacity;
+        }
+
+        .skill-section .first-title,
+        .skill-section .second-title {
+          transform-style: preserve-3d;
+          perspective: 1000px;
+        }
+
+        /* Enhanced glow effects */
+        .skill-section .first-title:hover,
+        .skill-section .second-title:hover {
+          filter: brightness(1.3) drop-shadow(0 0 40px rgba(200, 142, 100, 0.8));
+          transform: scale(1.02);
+        }
+
+        /* Smooth character transitions */
+        .char {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Add subtle rotation to characters on hover */
+        .skill-section:hover .char {
+          transform: rotateY(5deg) rotateX(2deg);
+        }
+
+        /* Staggered character hover effect */
+        .skill-section:hover .char:nth-child(odd) {
+          transform: rotateY(-3deg) rotateX(-1deg);
+        }
+
+        .skill-section:hover .char:nth-child(even) {
+          transform: rotateY(3deg) rotateX(1deg);
         }
       `}</style>
     </div>
