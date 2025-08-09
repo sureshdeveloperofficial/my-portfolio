@@ -11,6 +11,7 @@ import SmoothSkillsAnimation from "./sections/SmoothSkillsAnimation";
 import FooterSection from "./sections/FooterSection";
 import Experience from "./sections/Experience";
 import MagneticCursor from "./components/MagneticCursor";
+import MyProjects from "./sections/MyProjects";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -35,6 +36,7 @@ const App = () => {
           {/* <NutritionSection /> */}
           <SmoothSkillsAnimation />
           <Experience />
+          <MyProjects />
           <FooterSection />
         </div>
       </div>
