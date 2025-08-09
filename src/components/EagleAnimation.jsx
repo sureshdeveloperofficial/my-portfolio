@@ -33,6 +33,7 @@ const EagleAnimation = () => {
           1000
         );
         camera.position.set(0, 2, 8); // Moved camera closer and lower
+        camera.lookAt(0, 3, 0);
 
         // Renderer setup
         renderer = new THREE.WebGLRenderer({ 
@@ -44,6 +45,12 @@ const EagleAnimation = () => {
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         rendererRef.current = renderer;
+
+        // Ensure the canvas overlays properly within the hero container
+        renderer.domElement.style.position = 'absolute';
+        renderer.domElement.style.top = '0';
+        renderer.domElement.style.left = '0';
+        renderer.domElement.style.pointerEvents = 'none';
 
         mountRef.current.appendChild(renderer.domElement);
 
@@ -280,7 +287,14 @@ const EagleAnimation = () => {
 
       // Start animation loop
       console.log('Starting animation loop...');
-      animate();
+      // Use WebGLRenderer's animation loop for more robust timing
+      if (renderer) {
+        renderer.setAnimationLoop(() => {
+          animate();
+        });
+      } else {
+        animate();
+      }
       setIsInitialized(true);
       console.log('Eagle animation initialized successfully');
     };
@@ -306,6 +320,10 @@ const EagleAnimation = () => {
       
       if (animationIdRef.current) {
         cancelAnimationFrame(animationIdRef.current);
+      }
+      if (renderer) {
+        // Stop the renderer's animation loop if active
+        renderer.setAnimationLoop(null);
       }
       
       if (mountRef.current && renderer && renderer.domElement) {

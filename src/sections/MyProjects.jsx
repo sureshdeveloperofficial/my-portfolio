@@ -81,16 +81,39 @@ const MyProjects = ({ projects: incomingProjects }) => {
     () => {
       const section = sectionRef.current;
 
-      gsap.from(section.querySelector(".projects-title"), {
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-        },
-      });
+      // Elastic, scroll-triggered title entrance with forward/backward behavior
+      const titleEl = section.querySelector(".projects-title");
+      if (titleEl) {
+        gsap
+          .timeline({
+            defaults: { duration: 1.2, ease: "elastic.out(1, 0.5)" },
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              toggleActions: "play reverse play reverse",
+            },
+          })
+          .fromTo(
+            titleEl,
+            {
+              opacity: 0,
+              y: 70,
+              scaleY: 0.85,
+              scaleX: 1.08,
+              skewY: 6,
+              transformOrigin: "center bottom",
+              letterSpacing: "0.08em",
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scaleX: 1,
+              scaleY: 1,
+              skewY: 0,
+              letterSpacing: "0em",
+            }
+          );
+      }
 
       gsap.from(cardsRef.current, {
         opacity: 0,
